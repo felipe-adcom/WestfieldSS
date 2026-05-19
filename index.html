@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Services Westfield — Arquitectura</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0f11;--bg2:#16181d;--bg3:#1e2128;--bg4:#262b35;--bg5:#2e3440;
+  --b1:rgba(255,255,255,0.08);--b2:rgba(255,255,255,0.14);--b3:rgba(255,255,255,0.22);
+  --t1:#f2f3f6;--t2:#c4c9d6;--t3:#8b92a5;
+  --acc:#6c8fff;--acc2:#4d6fd9;
+  --c1:#6c8fff;--c1b:rgba(108,143,255,0.12);--c1d:rgba(108,143,255,0.32);
+  --c2:#3fcfaa;--c2b:rgba(63,207,170,0.12);--c2d:rgba(63,207,170,0.32);
+  --c3:#f0a840;--c3b:rgba(240,168,64,0.12);--c3d:rgba(240,168,64,0.32);
+  --pur:#a07aff;--purb:rgba(160,122,255,0.12);--purd:rgba(160,122,255,0.30);
+  --sidebar:240px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;display:flex}
+
+/* ── SIDEBAR ── */
+#sb{width:var(--sidebar);flex-shrink:0;background:var(--bg2);border-right:1px solid var(--b1);display:flex;flex-direction:column;height:100vh;overflow-y:auto;position:sticky;top:0}
+.sb-logo{padding:20px 18px 14px;border-bottom:1px solid var(--b1)}
+.sb-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:var(--t1);line-height:1.3}
+.sb-brand span{color:var(--acc)}
+.sb-tagline{font-size:10px;color:var(--t3);margin-top:2px;letter-spacing:.04em}
+.sb-section{padding:16px 12px 6px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--t3)}
+.sb-item{display:flex;align-items:center;gap:9px;padding:8px 14px;border-radius:8px;margin:1px 6px;cursor:pointer;transition:background .14s,color .14s;text-decoration:none;color:var(--t2);font-size:13px}
+.sb-item:hover{background:var(--bg3);color:var(--t1)}
+.sb-item.on{background:var(--bg4);color:var(--t1);font-weight:500}
+.sb-item.on .sb-dot{opacity:1}
+.sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;opacity:.35;transition:opacity .14s}
+.sb-sub{font-size:10px;color:var(--t3);padding:2px 14px 6px 37px;line-height:1.4}
+.sb-divider{height:1px;background:var(--b1);margin:8px 12px}
+.sb-layer-group{margin-bottom:2px}
+.sb-layer-label{display:flex;align-items:center;gap:7px;padding:5px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--t3)}
+.sb-layer-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.sb-mod-item{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 26px;cursor:pointer;transition:background .12s,color .12s;color:var(--t3);font-size:12px;border-radius:6px;margin:0 6px}
+.sb-mod-item:hover{background:var(--bg3);color:var(--t2)}
+.sb-mod-item.on{background:var(--c1b);color:var(--c1)}
+
+/* ── MAIN ── */
+#main{flex:1;height:100vh;overflow-y:auto;overflow-x:hidden}
+.page{display:none;padding:2rem 2.5rem 4rem;max-width:1200px}
+.page.on{display:block}
+.ph{margin-bottom:1.75rem}
+.ph h1{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--t1);margin-bottom:4px}
+.ph p{font-size:13px;color:var(--t3);line-height:1.6}
+
+/* ── MODULE GRID (page-modules) ── */
+.layer-sec{margin-bottom:1.75rem}
+.layer-hd{display:flex;align-items:center;gap:10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;color:var(--t3)}
+.layer-hd-dot{width:7px;height:7px;border-radius:50%}
+.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:7px}
+.mc{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:11px 13px;cursor:pointer;position:relative;overflow:hidden;transition:background .14s,transform .1s}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .18s}
+.mc:hover{background:var(--bg3);transform:translateY(-1px)}.mc:hover::before{opacity:1}
+.mc.on::before{opacity:1}.l1 .mc.on{border-color:var(--c1)}.l2 .mc.on{border-color:var(--c2)}.l3 .mc.on{border-color:var(--c3)}
+.l1 .mc::before{background:var(--c1)}.l2 .mc::before{background:var(--c2)}.l3 .mc::before{background:var(--c3)}
+.mc-name{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--t1)}
+.mc-es{font-size:10px;color:var(--t3);font-style:italic;margin-bottom:3px}
+.mc-meta{font-size:10px;color:var(--t3);margin-top:5px}
+.mc-updated{font-size:9px;padding:1px 6px;border-radius:8px;background:rgba(63,207,170,0.12);border:1px solid rgba(63,207,170,0.3);color:var(--c2);margin-top:4px;display:inline-block}
+
+/* ── DETAIL PANEL ── */
+#dp{display:none;background:var(--bg2);border:1px solid var(--b2);border-radius:14px;padding:1.5rem;margin-top:14px;animation:fi .18s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.dh{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.25rem}
+.dn{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--t1)}
+.dne{font-size:12px;color:var(--t3);font-style:italic;margin-top:2px}
+.dbg{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.bl1{background:var(--c1b);color:var(--c1);border:1px solid var(--c1d)}
+.bl2{background:var(--c2b);color:var(--c2);border:1px solid var(--c2d)}
+.bl3{background:var(--c3b);color:var(--c3);border:1px solid var(--c3d)}
+.xb{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--bg4);border:none;color:var(--t2);cursor:pointer;font-size:13px;flex-shrink:0;transition:background .12s}
+.xb:hover{color:var(--t1)}
+.dbox{border-radius:10px;padding:13px 15px;margin-bottom:1rem}
+.dbox-d{background:var(--bg3);border-left:3px solid var(--acc)}
+.dbox-r{background:var(--bg3);border-left:3px solid var(--pur)}
+.dbox-j{background:var(--bg3);border-left:3px solid var(--c2)}
+.dbox-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--t3);margin-bottom:6px}
+.dbox-p{font-size:13px;color:var(--t2);line-height:1.7}
+.rl{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.rc{font-size:12px;padding:3px 11px;border-radius:20px;border:1px solid var(--b2);color:var(--t2);background:var(--bg4);cursor:pointer;transition:border-color .12s,color .12s}
+.rc:hover{border-color:var(--acc);color:var(--acc)}
+.jstep-ref{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:4px 10px;border-radius:8px;cursor:pointer;transition:background .12s}
+.jstep-ref:hover{background:var(--c2b)}
+.sl2{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin:1.1rem 0 7px;display:flex;align-items:center;gap:6px}
+.sl2::after{content:'';flex:1;height:1px;background:var(--b1)}
+.fl{display:flex;flex-direction:column;gap:4px}
+.fi{padding:6px 10px;background:var(--bg3);border-radius:7px}
+.fr{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.fn{font-size:12px;color:var(--t1)}.fes{font-size:11px;color:var(--t3);font-style:italic}
+.ft{font-size:10px;color:var(--t3);background:var(--bg4);padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+.fp{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+.pill{font-size:10px;padding:2px 7px;border-radius:9px;background:rgba(255,255,255,0.04);border:1px solid var(--b1);color:var(--t2)}
+
+/* ── DIAGRAM (page-diagram) ── */
+.diag-wrap{background:var(--bg3);border:1px solid var(--b1);border-radius:14px;overflow:hidden}
+.diag-tb{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--b1);background:var(--bg4);flex-wrap:wrap}
+.leg{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t2)}
+.lio{width:8px;height:8px;border-radius:2px}
+.lli{display:inline-block;width:20px;height:2px;border-radius:1px;margin-right:2px}
+.zc{display:flex;gap:4px;margin-left:auto}
+.zb{width:27px;height:27px;border-radius:6px;background:var(--bg4);border:1px solid var(--b1);color:var(--t2);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:background .12s}
+.zb:hover{background:var(--bg2);color:var(--t1)}
+#cw{overflow:hidden;cursor:grab;user-select:none;height:680px;position:relative}
+#cw:active{cursor:grabbing}
+#cv{position:absolute;transform-origin:0 0}
+.nd{position:absolute;border-radius:11px;border:1px solid;padding:10px 13px;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .1s;text-align:left}
+.nd:hover{z-index:20;transform:translateY(-2px);box-shadow:0 4px 18px rgba(0,0,0,.5),0 0 0 1.5px rgba(255,255,255,.18)}
+.nd.hl{z-index:30!important;box-shadow:0 4px 22px rgba(0,0,0,.6),0 0 0 2px #ffffff!important;transform:translateY(-2px)}
+.nd.hp{z-index:20!important;box-shadow:0 0 0 2px rgba(108,143,255,.85)!important}
+.nd.hc{z-index:20!important;box-shadow:0 0 0 2px rgba(63,207,170,.85)!important}
+.nt1{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;line-height:1.3;margin-bottom:1px}
+.nes{font-size:9px;opacity:.5;font-style:italic;margin-bottom:2px}
+.ns{font-size:9px;opacity:.6;line-height:1.4}
+.nl1{background:rgba(108,143,255,.13);border-color:rgba(108,143,255,.38);color:#c8d6ff}
+.nl2{background:rgba(63,207,170,.13);border-color:rgba(63,207,170,.38);color:#a8edd8}
+.nl3{background:rgba(240,168,64,.13);border-color:rgba(240,168,64,.38);color:#fde0a0}
+#svgl{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+#tt{position:fixed;background:var(--bg3);border:1px solid var(--b2);border-radius:9px;padding:9px 13px;font-size:12px;color:var(--t1);pointer-events:none;z-index:300;display:none;max-width:250px;line-height:1.55;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+
+/* ── JOURNEY (page-journey) ── */
+.j-hero{background:rgba(108,143,255,0.06);border:1px solid rgba(108,143,255,0.2);border-radius:12px;padding:16px 18px;margin-bottom:1.75rem}
+.j-hero-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--c1);margin-bottom:6px}
+.j-hero-p{font-size:13px;color:var(--t2);line-height:1.7}
+/* unified diagram */
+#jdiag{background:var(--bg3);border:1px solid var(--b1);border-radius:14px;overflow:hidden;margin-bottom:2rem}
+#jdiag-tb{padding:10px 16px;border-bottom:1px solid var(--b1);background:var(--bg4);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#jdiag-tb .jtitle{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--t1)}
+#jdiag-tb .jsub{font-size:11px;color:var(--t3)}
+#jcw{overflow:auto;height:560px;position:relative;cursor:grab}
+#jcw:active{cursor:grabbing}
+#jcv{position:relative}
+/* status swimlanes */
+.swim{position:absolute;border-radius:12px;border:1px solid}
+.swim-label{position:absolute;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center}
+/* journey nodes */
+.jnd{position:absolute;border-radius:10px;border:1px solid;padding:9px 11px;cursor:pointer;transition:box-shadow .15s,transform .1s}
+.jnd:hover{transform:translateY(-2px);box-shadow:0 4px 18px rgba(0,0,0,.5)}
+.jnd.hl{box-shadow:0 0 0 2px #fff!important;z-index:20}
+.jnd-label{font-family:'Syne',sans-serif;font-size:10px;font-weight:700;line-height:1.3;margin-bottom:2px}
+.jnd-sub{font-size:9px;opacity:.6;line-height:1.3}
+/* step type colors */
+.jnd-com{background:rgba(160,122,255,0.14);border-color:rgba(160,122,255,0.38);color:#d4b8ff}
+.jnd-ss{background:rgba(63,207,170,0.13);border-color:rgba(63,207,170,0.38);color:#a8edd8}
+.jnd-both{background:rgba(108,143,255,0.13);border-color:rgba(108,143,255,0.38);color:#c8d6ff}
+.jnd-mod{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.14);color:var(--t2)}
+.jnd-special{background:rgba(240,168,64,0.13);border-color:rgba(240,168,64,0.38);color:#fde0a0}
+#jsvg{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+/* steps list */
+.jstage{margin-bottom:2rem}
+.jstage-hd{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--b1)}
+.jstage-icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.jstage-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--t1)}
+.jstage-sub{font-size:12px;color:var(--t3)}
+.jsteps{display:flex;flex-direction:column;gap:8px}
+.jstep{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:12px 14px;border-left:3px solid transparent}
+.jstep.s-com{border-left-color:var(--pur)}.jstep.s-ss{border-left-color:var(--c2)}.jstep.s-both{border-left-color:var(--c1)}
+.jstep-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:5px}
+.jstep-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--t1)}
+.jstep-tags{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0}
+.jtag{font-size:10px;padding:2px 7px;border-radius:9px;border:1px solid var(--b1);white-space:nowrap}
+.jtag-com{background:var(--purb);color:var(--pur);border-color:var(--purd)}
+.jtag-ss{background:var(--c2b);color:var(--c2);border-color:var(--c2d)}
+.jtag-canvas{background:var(--c3b);color:var(--c3);border-color:var(--c3d)}
+.jtag-no{background:rgba(240,96,96,0.1);color:#f09898;border-color:rgba(240,96,96,0.25)}
+.jstep-desc{font-size:12px;color:var(--t2);line-height:1.65;margin-bottom:8px}
+.jmod-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.jmod{font-size:10px;padding:2px 9px;border-radius:8px;background:var(--bg4);border:1px solid var(--b2);color:var(--t3);cursor:pointer;transition:color .12s,border-color .12s}
+.jmod:hover{color:var(--acc);border-color:var(--acc)}
+.jmod-lbl{font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;margin-top:6px}
+/* special cases */
+.jspecial{background:rgba(240,168,64,.06);border:1px solid rgba(240,168,64,.2);border-radius:12px;padding:14px 16px;margin-bottom:1.75rem}
+.jspecial-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#f5c270;margin-bottom:10px}
+.jsc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.jsc{background:var(--bg3);border-radius:8px;padding:10px 12px;border-left:2px solid var(--c3)}
+.jsc-name{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:4px}
+.jsc-p{font-size:11px;color:var(--t2);line-height:1.55}
+/* summary table */
+.jtable{background:var(--bg2);border:1px solid var(--b1);border-radius:12px;overflow:hidden;margin-bottom:2rem}
+.jtable-hd{padding:12px 16px;border-bottom:1px solid var(--b1);background:var(--bg3);font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--t1)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:9px 14px;text-align:left;color:var(--t3);font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--b1)}
+td{padding:9px 14px;border-bottom:1px solid var(--b1);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even){background:rgba(255,255,255,.015)}
+.who{display:inline-flex;gap:3px;flex-wrap:wrap}
+.wb{font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px}
+.wc{background:var(--purb);color:var(--pur);border:1px solid var(--purd)}
+.ws{background:var(--c2b);color:var(--c2);border:1px solid var(--c2d)}
+/* pending */
+.jpend{background:var(--bg2);border:1px solid rgba(108,143,255,.2);border-radius:12px;padding:16px;margin-top:1.75rem}
+.jpend-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--c1);margin-bottom:12px}
+.jpend-list{display:flex;flex-direction:column;gap:8px}
+.jpi{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--t2);line-height:1.55}
+.jpn{width:21px;height:21px;border-radius:50%;background:var(--c1b);border:1px solid var(--c1d);color:var(--c1);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<div id="sb">
+  <div class="sb-logo">
+    <div class="sb-brand">Student Services <span>Westfield</span></div>
+    <div class="sb-tagline">Arquitectura de información</div>
+  </div>
+
+  <div class="sb-section">Vistas principales</div>
+  <a class="sb-item on" id="nav-modules" onclick="nav('modules',this)">
+    <span class="sb-dot" style="background:var(--c1)"></span>Módulos y campos
+  </a>
+  <a class="sb-item" id="nav-diagram" onclick="nav('diagram',this)">
+    <span class="sb-dot" style="background:var(--c2)"></span>Diagrama de relaciones
+  </a>
+  <a class="sb-item" id="nav-journey" onclick="nav('journey',this)">
+    <span class="sb-dot" style="background:var(--pur)"></span>Journey del estudiante
+  </a>
+
+  <div class="sb-divider"></div>
+  <div class="sb-section">Módulos</div>
+
+  <div class="sb-layer-group">
+    <div class="sb-layer-label"><span class="sb-layer-dot" style="background:var(--c1)"></span>Capa 1 — Maestros</div>
+    <div id="sb-l1"></div>
+  </div>
+  <div class="sb-layer-group">
+    <div class="sb-layer-label"><span class="sb-layer-dot" style="background:var(--c2)"></span>Capa 2 — Operación</div>
+    <div id="sb-l2"></div>
+  </div>
+  <div class="sb-layer-group">
+    <div class="sb-layer-label"><span class="sb-layer-dot" style="background:var(--c3)"></span>Capa 3 — Excepciones</div>
+    <div id="sb-l3"></div>
+  </div>
+
+  <div class="sb-divider"></div>
+  <div class="sb-section">Registro de cambios</div>
+  <div style="padding:6px 14px 12px">
+    <div style="font-size:11px;color:var(--c2);font-weight:600;margin-bottom:4px">&#9679; May 6, 2026</div>
+    <div style="font-size:11px;color:var(--t3);line-height:1.6">
+      Reunión SS Westfield<br>
+      · Winter eliminado de Season<br>
+      · Nickname en Products<br>
+      · Pending Graduation en SS<br>
+      · 18 Tracks MBA en Products<br>
+      · Calendar Ref en Offerings<br>
+      · Nota GIW externos<br>
+      · Product Code obligatorio
+    </div>
+  </div>
+
+  <div class="sb-divider"></div>
+  <div class="sb-section">Comentarios del cliente</div>
+  <div style="padding:0 14px 6px">
+    <div id="sb-comments-list" style="font-size:11px;color:var(--t3)">Sin comentarios aún.</div>
+    <button onclick="exportAllComments()" style="margin-top:8px;width:100%;background:var(--bg4);border:1px solid var(--b2);border-radius:7px;padding:7px 0;color:var(--c2);font-family:Syne,sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:background .12s" onmouseover="this.style.background='var(--c2b)'" onmouseout="this.style.background='var(--bg4)'">&#128229; Exportar todos</button>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div id="main">
+
+<!-- PAGE: MODULES -->
+<div class="page on" id="page-modules">
+  <div class="ph"><h1>Módulos y campos</h1><p>Haz clic en cualquier módulo para ver campos, picklists y relaciones. Los módulos del sidebar también abren su ficha directamente.</p></div>
+  <div class="layer-sec l1">
+    <div class="layer-hd"><span class="layer-hd-dot" style="background:var(--c1)"></span><span style="color:var(--c1)">Capa 1</span>&nbsp;— Maestros / Catálogo</div>
+    <div class="mg" id="g1"></div>
+  </div>
+  <div class="layer-sec l2">
+    <div class="layer-hd"><span class="layer-hd-dot" style="background:var(--c2)"></span><span style="color:var(--c2)">Capa 2</span>&nbsp;— Operación central</div>
+    <div class="mg" id="g2"></div>
+  </div>
+  <div class="layer-sec l3">
+    <div class="layer-hd"><span class="layer-hd-dot" style="background:var(--c3)"></span><span style="color:var(--c3)">Capa 3</span>&nbsp;— Casos y excepciones</div>
+    <div class="mg" id="g3"></div>
+  </div>
+  <div id="dp"></div>
+</div>
+
+<!-- PAGE: DIAGRAM -->
+<div class="page" id="page-diagram">
+  <div class="ph"><h1>Diagrama de relaciones</h1><p>Clic en un nodo para resaltar sus conexiones. Arrastra para navegar · Scroll para zoom.</p></div>
+  <div class="diag-wrap">
+    <div class="diag-tb">
+      <div class="leg">
+        <div class="li"><span class="lio" style="background:var(--c1)"></span>Capa 1 — Maestros</div>
+        <div class="li"><span class="lio" style="background:var(--c2)"></span>Capa 2 — Operación</div>
+        <div class="li"><span class="lio" style="background:var(--c3)"></span>Capa 3 — Excepciones</div>
+        <div style="width:1px;height:14px;background:var(--b1);margin:0 4px"></div>
+        <div class="li"><span class="lli" style="background:rgba(108,143,255,.7)"></span>Alimenta al nodo</div>
+        <div class="li"><span class="lli" style="background:rgba(63,207,170,.7)"></span>Recibe del nodo</div>
+      </div>
+      <div class="zc">
+        <button class="zb" onclick="zoom(.15)">+</button>
+        <button class="zb" onclick="zoom(-.15)">−</button>
+        <button class="zb" onclick="resetV()">⌂</button>
+      </div>
+    </div>
+    <div id="cw"><div id="cv"><svg id="svgl"></svg></div></div>
+  </div>
+</div>
+
+<!-- PAGE: JOURNEY -->
+<div class="page" id="page-journey">
+  <div class="ph"><h1>Journey del estudiante</h1><p>Flujo unificado: Comercial → Student Services. El diagrama muestra cómo el Journey activa cada módulo de la arquitectura. Haz clic en cualquier nodo para ver su ficha.</p></div>
+
+  <div class="j-hero">
+    <div class="j-hero-title">🔄 Cambio principal en el flujo de responsabilidad</div>
+    <div class="j-hero-p">Antes SS recibía al estudiante desde <strong style="color:var(--t1)">Admitido</strong>. Con esta propuesta, <strong style="color:var(--c2)">SS interviene desde Reserva</strong> — con saludo inicial y onboarding, pero sin crear usuario en Canvas ni matricular en cursos todavía.</div>
+  </div>
+
+  <!-- UNIFIED DIAGRAM -->
+  <div id="jdiag">
+    <div id="jdiag-tb">
+      <div><div class="jtitle">Diagrama unificado — Journey + Módulos</div><div class="jsub">Clic en módulo (verde) para ver su ficha · Arrastra · Scroll zoom</div></div>
+      <div class="leg" style="margin-left:16px">
+        <div class="li"><span style="display:inline-block;width:18px;height:2px;background:rgba(108,143,255,0.8);border-radius:1px;margin-right:3px"></span>Flujo del journey</div>
+        <div class="li"><span style="display:inline-block;width:18px;height:2px;background:rgba(63,207,170,0.6);border-radius:1px;margin-right:3px;border-top:2px dashed rgba(63,207,170,0.6);height:0"></span>Activa módulo</div>
+        <div class="li"><span style="display:inline-block;width:18px;height:0;border-top:2px dashed rgba(240,168,64,0.6);margin-right:3px"></span>Caso especial</div>
+      </div>
+      <div class="zc" style="margin-left:auto">
+        <button class="zb" onclick="jzoom(.15)">+</button>
+        <button class="zb" onclick="jzoom(-.15)">−</button>
+        <button class="zb" onclick="jresetV()">⌂</button>
+      </div>
+    </div>
+    <div id="jcw"><div id="jcv"><svg id="jsvg"></svg></div></div>
+  </div>
+
+  <!-- STAGE: ADMITIDO -->
+  <div class="jstage">
+    <div class="jstage-hd">
+      <div class="jstage-icon" style="background:var(--purb)">🎯</div>
+      <div><div class="jstage-title">1 · Admitido</div><div class="jstage-sub">Gestión exclusiva de Comercial — SS no interviene</div></div>
+    </div>
+    <div class="jsteps">
+      <div class="jstep s-com">
+        <div class="jstep-hd"><div class="jstep-name">Prospecto convertido a Admitido</div><div class="jstep-tags"><span class="jtag jtag-com">Comercial</span><span class="jtag jtag-no">Sin SS</span></div></div>
+        <div class="jstep-desc">El equipo comercial gestiona al prospecto en su pipeline. Se captura el programa vendido, intake y condiciones comerciales. SS no recibe notificación todavía.</div>
+        <div class="jmod-lbl">Módulos Zoho</div>
+        <div class="jmod-row">
+          <span class="jmod" onclick="openMod('contacts')">Contacts</span>
+          <span class="jmod" onclick="openMod('deals')">Deals · Stage = Admitido</span>
+          <span class="jmod" onclick="openMod('products')">Products</span>
+          <span class="jmod" onclick="openMod('intakes')">Intakes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE: RESERVA -->
+  <div class="jstage">
+    <div class="jstage-hd">
+      <div class="jstage-icon" style="background:var(--c2b)">👋</div>
+      <div><div class="jstage-title">2 · Reserva</div><div class="jstage-sub">Primer punto de contacto de SS — sin Canvas, sin matrícula en cursos</div></div>
+    </div>
+    <div class="jsteps">
+      <div class="jstep s-both">
+        <div class="jstep-hd"><div class="jstep-name">Comercial notifica a SS — Deal pasa a Reserva</div><div class="jstep-tags"><span class="jtag jtag-com">Comercial</span></div></div>
+        <div class="jstep-desc">Comercial marca el Deal como Reserva en Zoho. El Deal origina la creación del expediente en Student Services. Mientras se consolida la automatización, la notificación puede llegar por correo.</div>
+        <div class="jmod-lbl">Módulos Zoho</div>
+        <div class="jmod-row">
+          <span class="jmod" onclick="openMod('deals')">Deals · Stage = Reserva</span>
+          <span class="jmod" onclick="openMod('student_services')">Student Services · se crea el expediente</span>
+        </div>
+      </div>
+      <div class="jstep s-ss">
+        <div class="jstep-hd"><div class="jstep-name">SS inicia onboarding — saludo, WApp y Welcome Session</div><div class="jstep-tags"><span class="jtag jtag-ss">SS</span><span class="jtag jtag-no">Sin Canvas</span></div></div>
+        <div class="jstep-desc">Student Services envía el saludo inicial e incluye al estudiante en grupos de WhatsApp y Welcome Sessions. No se crea usuario en Canvas ni se matricula. SS solo interviene si Comercial lo solicita.</div>
+        <div class="jmod-lbl">Campos clave en Student Services</div>
+        <div class="jmod-row">
+          <span class="jmod" onclick="openMod('student_services')">Academic Status = Onboarding</span>
+          <span class="jmod" onclick="openMod('student_services')">Canvas User Created = ☐</span>
+          <span class="jmod" onclick="openMod('student_services')">Canvas Enrollment Enabled = ☐</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE: MATRICULADO -->
+  <div class="jstage">
+    <div class="jstage-hd">
+      <div class="jstage-icon" style="background:var(--c1b)">📚</div>
+      <div><div class="jstage-title">3 · Matriculado (Enrolled)</div><div class="jstage-sub">Gestión exclusiva de SS — Canvas activo, matrícula real en cursos</div></div>
+    </div>
+    <div class="jsteps">
+      <div class="jstep s-ss">
+        <div class="jstep-hd"><div class="jstep-name">Creación de usuario en Canvas</div><div class="jstep-tags"><span class="jtag jtag-ss">SS</span><span class="jtag jtag-canvas">Canvas</span></div></div>
+        <div class="jstep-desc">SS crea el usuario en Canvas y registra la fecha. El pago requerido ya fue confirmado por Comercial. Se habilita el acceso a la plataforma académica.</div>
+        <div class="jmod-lbl">Campos clave</div>
+        <div class="jmod-row">
+          <span class="jmod" onclick="openMod('student_services')">Canvas User Created = ✓</span>
+          <span class="jmod" onclick="openMod('student_services')">Canvas User Creation Date</span>
+          <span class="jmod" onclick="openMod('contacts')">Contacts · Canvas User ID</span>
+        </div>
+      </div>
+      <div class="jstep s-ss">
+        <div class="jstep-hd"><div class="jstep-name">Asignación de grupo, tutora e intake</div><div class="jstep-tags"><span class="jtag jtag-ss">SS</span></div></div>
+        <div class="jstep-desc">SS asigna al estudiante a su grupo académico (ej. MBA SPR26 G1), confirma la tutora responsable y fija el intake original. Esto define el punto de partida del expediente completo.</div>
+        <div class="jmod-lbl">Módulos Zoho</div>
+        <div class="jmod-row">
+          <span class="jmod" onclick="openMod('academic_groups')">Academic Groups</span>
+          <span class="jmod" onclick="openMod('intakes')">Intakes</span>
+          <span class="jmod" onclick="openMod('student_services')">SS · Academic Group + Tutor + Original Intake</span>
+        </div>
+      </div>
+      <div class="jstep s-ss">
+        <div class="jstep-hd"><div class="jstep-name">Matrícula en cursos del Bloque 1</div><div class="jstep-tags"><span class="jtag jtag-ss">SS</span><span class="jtag jtag-canvas">Canvas</span></div></div>
+        <div class="jstep-desc">Se crea un Student Enrollment por cada materia del Bloque 1. Se verifica paz y salvo financiero y documentos de admisión antes de habilitar cada matrícula en Canvas.</div>
+        <div class="jmod-lbl">Módulos Zoho</div>
+        <div class="jmod-row">
+          <span class="jmod" onclick="openMod('academic_offerings')">Academic Offerings · Bloque 1</span>
+          <span class="jmod" onclick="openMod('student_enrollments')">Student Enrollments · una fila por materia</span>
+          <span class="jmod" onclick="openMod('student_services')">SS · Status = Enrolled</span>
+          <span class="jmod" onclick="openMod('student_services')">Financial Clearance + Admissions Docs</span>
+        </div>
+      </div>
+      <div class="jstep s-ss">
+        <div class="jstep-hd"><div class="jstep-name">Continuación del onboarding</div><div class="jstep-tags"><span class="jtag jtag-ss">SS</span></div></div>
+        <div class="jstep-desc">SS completa el acompañamiento: orientación académica, verificación final de documentos, confirmación de grupos y activación completa del expediente.</div>
+        <div class="jmod-lbl">Campos clave</div>
+        <div class="jmod-row">
+          <span class="jmod" onclick="openMod('student_services')">Admissions Documents Complete = ✓</span>
+          <span class="jmod" onclick="openMod('student_services')">Canvas Enrollment Enabled = ✓</span>
+          <span class="jmod" onclick="openMod('student_services')">Block 1 Start Date</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPECIAL CASES -->
+  <div class="jspecial">
+    <div class="jspecial-title">⚠️ Casos especiales — identificados con etiqueta en el Deal</div>
+    <div class="jsc-grid">
+      <div class="jsc">
+        <div class="jsc-name">Admitido con caso especial</div>
+        <div class="jsc-p">Acuerdo especial: SS interviene desde Admitido con onboarding completo y Canvas, aunque el pago del 20% no esté completo.</div>
+        <div class="jmod-row" style="margin-top:7px">
+          <span class="jmod" onclick="openMod('deals')">Deals · Commercial Exception Type</span>
+          <span class="jmod" onclick="openMod('student_services')">SS · Canvas User Created = ✓</span>
+        </div>
+      </div>
+      <div class="jsc">
+        <div class="jsc-name">Reserva con caso especial</div>
+        <div class="jsc-p">En Reserva pero ya requiere Canvas antes del 20% por acuerdo negociado con Comercial. SS procede con onboarding y matrícula.</div>
+        <div class="jmod-row" style="margin-top:7px">
+          <span class="jmod" onclick="openMod('deals')">Deals · Exception = Reserve Approved</span>
+          <span class="jmod" onclick="openMod('student_services')">SS · Canvas User Created = ✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY TABLE -->
+  <div class="jtable">
+    <div class="jtable-hd">Resumen — quién hace qué en cada estatus</div>
+    <table>
+      <thead><tr><th>Estatus</th><th>Responsable</th><th>Acción SS</th><th>Canvas</th><th>Módulo clave</th></tr></thead>
+      <tbody>
+        <tr><td style="color:var(--t1);font-weight:600">Admitido</td><td><div class="who"><span class="wb wc">Comercial</span></div></td><td style="color:var(--t3)">Ninguna</td><td style="color:#f09898">✕ No</td><td><span class="jmod" onclick="openMod('deals')">Deals</span></td></tr>
+        <tr><td style="color:var(--t1);font-weight:600">Admitido + especial</td><td><div class="who"><span class="wb wc">Com</span><span class="wb ws">SS</span></div></td><td style="color:var(--t2)">Onboarding + Canvas</td><td style="color:var(--c2)">✓ Sí</td><td><span class="jmod" onclick="openMod('deals')">Deals · Exception</span></td></tr>
+        <tr><td style="color:var(--t1);font-weight:600">Reserva</td><td><div class="who"><span class="wb wc">Com</span><span class="wb ws">SS</span></div></td><td style="color:var(--t2)">Saludo · WApp · Welcome</td><td style="color:#f09898">✕ No</td><td><span class="jmod" onclick="openMod('student_services')">SS · Onboarding</span></td></tr>
+        <tr><td style="color:var(--t1);font-weight:600">Reserva + especial</td><td><div class="who"><span class="wb wc">Com</span><span class="wb ws">SS</span></div></td><td style="color:var(--t2)">Onboarding + Canvas</td><td style="color:var(--c2)">✓ Sí</td><td><span class="jmod" onclick="openMod('deals')">Deals · Exception</span></td></tr>
+        <tr><td style="color:var(--t1);font-weight:600">Matriculado</td><td><div class="who"><span class="wb ws">SS</span></div></td><td style="color:var(--t2)">Onboarding + cursos</td><td style="color:var(--c2)">✓ Sí</td><td><span class="jmod" onclick="openMod('student_services')">SS · Enrolled</span> <span class="jmod" onclick="openMod('student_enrollments')">Enrollments</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="jpend">
+    <div class="jpend-title">📋 Puntos operativos pendientes</div>
+    <div class="jpend-list">
+      <div class="jpi"><span class="jpn">1</span><div><strong style="color:var(--t1)">Reporte oficial de matrícula:</strong> ¿Por qué medio notifica Comercial a SS que un estudiante ya debe ser matriculado? Por correo mientras se consolida en Zoho, o desde el Deal con automatización de workflow.</div></div>
+      <div class="jpi"><span class="jpn">2</span><div><strong style="color:var(--t1)">Comunicación en etapa de Reserva:</strong> ¿SS se comunica proactivamente o solo si Comercial levanta la mano? Acuerdo actual: SS interviene solo cuando Comercial lo solicita explícitamente.</div></div>
+    </div>
+  </div>
+</div><!-- /page-journey -->
+
+</div><!-- /main -->
+<div id="tt"></div>
+
+<script>
+const M=[
+{id:'contacts',l:1,name:'Contacts',es:'Contactos',sub:'Maestro de personas',
+desc:'Registro central de toda persona en el sistema. Cada estudiante, alumni, externo o invitado corporativo debe existir primero aquí. Centralizar los datos personales en Contacts evita duplicación y garantiza un único punto de verdad para nombre, correo, documento e IDs de plataforma.',
+why:'Se relaciona con Student Services (1:N) porque una persona puede tener más de un ciclo académico. Con Deals porque el proceso comercial empieza al convertir un prospecto en contacto. Con GIW Assignments porque la participación en semanas internacionales es individual.',
+fields:[
+{n:'First Name',es:'Nombre',t:'text'},
+{n:'Last Name',es:'Apellido',t:'text'},
+{n:'Full Name',es:'Nombre completo',t:'fórmula'},
+{n:'Email',es:'Correo electrónico',t:'email'},
+{n:'Phone',es:'Teléfono fijo',t:'phone'},
+{n:'Mobile',es:'Celular',t:'phone'},
+{n:'Country',es:'País',t:'text'},
+{n:'Document Type',es:'Tipo de documento',t:'picklist',o:['Cédula de ciudadanía','Cédula de extranjería','Pasaporte','NIT / RUC','Otro']},
+{n:'Document Number',es:'Número de documento',t:'text'},
+{n:'Canvas User ID',es:'ID en Canvas',t:'text'},
+{n:'Blackboard User ID',es:'ID en Blackboard',t:'text'},
+{n:'Participant Type',es:'Tipo de participante',t:'picklist',o:['Student — Estudiante regular','UIDE Student — Estudiante UIDE','External Participant — Externo','Alumni — Egresado','Corporate Invite — Invitado corporativo']},
+{n:'Contact Source',es:'Origen del contacto',t:'picklist',o:['Comercial','Student Services','Partner — Aliado','Manual','Import — Carga masiva']},
+],
+rels:['deals','student_services','giw_assignments']},
+
+{id:'accounts',l:1,name:'Accounts',es:'Cuentas / Organizaciones',sub:'Corporativos, aliados y compradores externos',
+desc:'Representa organizaciones con relación institucional: empresas que envían empleados al programa, escuelas aliadas para semanas GIW o corporativos que compran cupos en bloque. Solo aplica si el negocio maneja este tipo de relaciones.',
+why:'Se relaciona con Contacts porque una organización tiene múltiples personas de contacto. Con Deals cuando la venta es a nivel corporativo y no individual.',
+fields:[
+{n:'Account Name',es:'Nombre de la organización',t:'text'},
+{n:'Account Type',es:'Tipo de cuenta',t:'picklist',o:['Corporate — Corporativo','Partner School — Escuela aliada','GIW Sponsor — Patrocinador GIW','Government — Entidad pública','Other — Otro']},
+{n:'Industry',es:'Industria / Sector',t:'picklist',o:['Educación','Tecnología','Salud','Financiero','Manufactura','Gobierno','Otro']},
+{n:'Website',es:'Sitio web',t:'url'},
+{n:'Phone',es:'Teléfono',t:'phone'},
+{n:'Country',es:'País',t:'text'},
+],
+rels:['contacts','deals']},
+
+{id:'deals',l:1,name:'Deals',es:'Negocios / Procesos comerciales',sub:'Origen comercial de cada estudiante',
+desc:'Captura el proceso de venta: programa vendido, intake, condiciones comerciales y depósito inicial. Es el puente entre comercial y Student Services. Sin él, no se sabe si un estudiante llegó con excepción de reserva, descuento o condición especial.',
+why:'Un Deal origina exactamente un Student Services. Apunta a Products para saber qué programa se vendió y a Intakes para la cohorte. Las notas comerciales deben leerse en Student Services al momento del onboarding.',
+fields:[
+{n:'Deal Name',es:'Nombre del negocio',t:'text'},
+{n:'Contact',es:'Contacto',t:'lookup → Contacts'},
+{n:'Account',es:'Cuenta / Organización',t:'lookup → Accounts'},
+{n:'Program Sold',es:'Programa vendido',t:'lookup → Products'},
+{n:'Intake Sold',es:'Intake vendida',t:'lookup → Intakes'},
+{n:'Deal Stage',es:'Etapa del negocio',t:'picklist',o:['Prospecto','Propuesta enviada','Negociación','Depósito recibido','Cerrado ganado','Cerrado perdido']},
+{n:'Commercial Exception Type',es:'Tipo de excepción comercial',t:'picklist',o:['None — Sin excepción','Reserve Requested — Reserva solicitada','Reserve Approved — Reserva aprobada']},
+{n:'Initial Deposit Paid',es:'Depósito inicial pagado',t:'checkbox'},
+{n:'Commercial Notes to SS',es:'Notas para Student Services',t:'multiline'},
+],
+rels:['contacts','accounts','products','intakes','student_services']},
+
+{id:'products',updated:'2026-05-06',l:1,name:'Products',es:'Productos / Catálogo académico',sub:'Programas, bloques, cursos y experiencias base',
+desc:'Catálogo estático del portafolio académico: programas, bloques, cursos base, experiencias, PBL y productos GIW. Aquí NO vive ninguna operación individual. Su propósito es definir la estructura curricular que luego se instancia en Academic Offerings cuando se abre un grupo real. ⚠️ ACCIÓN PENDIENTE DEL EQUIPO: Existe un conflicto de códigos entre productos GIW, MBA y Executive que debe resolverse internamente antes de la carga de datos. El código debe ser alfanumérico, único y estandarizado para evitar problemas en generación de transcripts e integraciones futuras con sistemas de tecnología.',
+why:'Academic Offerings apunta a Products para saber qué curso base abre. Student Services apunta a Products para saber en qué programa está el estudiante. Academic Groups apunta a Products para identificar el programa del grupo. Un mismo curso base puede abrirse en múltiples Offerings.',
+fields:[
+{n:'Product Name',es:'Nombre',t:'text'},
+{n:'Product Code',es:'Código alfanumérico estandarizado (obligatorio y único — requerido para transcripts e integraciones)',t:'text — obligatorio, único'},
+{n:'Product Type',es:'Tipo de producto',t:'picklist',o:['Program — Programa','Block — Bloque','Base Course — Curso base','MBA Track — Profundización MBA (1 de 18 tracks)','GIW Base — Producto GIW','Experience — Experiencia','PBL — Aprendizaje basado en proyectos','Graduation Course — Curso de graduación']},
+{n:'Program Base',es:'Programa al que pertenece',t:'lookup self → Program'},
+{n:'Block Number',es:'Número de bloque',t:'number'},
+{n:'Credits',es:'Créditos',t:'decimal'},
+{n:'Course Base Code',es:'Código base',t:'text'},
+{n:'Academic Category',es:'Categoría académica',t:'picklist',o:['Core — Núcleo','Track del SER','BMP','PBL','GIW','Graduation — Graduación','Experience — Experiencia']},
+{n:'Delivery Mode',es:'Modalidad',t:'picklist',o:['In Person — Presencial','Virtual','Hybrid — Híbrido']},
+{n:'Prerequisite Required',es:'¿Requiere prerequisito?',t:'checkbox'},
+{n:'Prerequisite Product',es:'Producto prerequisito',t:'lookup self → Products'},
+{n:'Description',es:'Descripción',t:'multiline'},
+{n:'Is Active',es:'¿Está activo?',t:'checkbox'},
+],
+rels:['academic_offerings','academic_groups','student_services']},
+
+{id:'intakes',updated:'2026-05-06',l:1,name:'Intakes',es:'Intakes / Cohortes',sub:'Cada cohorte de ingreso al programa',
+desc:'Registra cada cohorte con fechas de inicio, fin y graduación esperada. Es el eje temporal del sistema: todo lo que tiene que ver con "cuándo" referencia a un Intake. Usarlo como módulo (no como picklist) permite agregar campos de fecha, activarlo/desactivarlo y construir reportes por cohorte.',
+why:'Academic Groups apunta a Intakes para saber a qué cohorte pertenece el grupo. Academic Offerings apunta a Intakes para saber cuándo se abre la materia. Student Services guarda el Intake original y el actual (que puede cambiar con LOA o CAP). LOA Cases apunta a Intakes para el retorno del estudiante.',
+fields:[
+{n:'Intake Name',es:'Nombre del intake',t:'text'},
+{n:'Intake Code',es:'Código corto',t:'text'},
+{n:'Season',es:'Temporada',t:'picklist',o:['Spring — Primavera','Summer — Verano','Fall — Otoño']},
+{n:'Year',es:'Año',t:'number'},
+{n:'Start Date',es:'Fecha de inicio',t:'date'},
+{n:'End Date',es:'Fecha de cierre',t:'date'},
+{n:'Expected Graduation Date',es:'Fecha esperada de graduación',t:'date'},
+{n:'Expected Graduation Label',es:'Etiqueta de graduación',t:'text'},
+{n:'Is Active',es:'¿Está activo?',t:'checkbox'},
+],
+rels:['academic_groups','academic_offerings','student_services','loa_cases']},
+
+{id:'academic_groups',l:1,name:'Academic Groups',es:'Grupos Académicos',sub:'Grupos reales de estudiantes por intake y programa',
+desc:'Representa el grupo físico al que pertenece un estudiante: MBA SPR26 G1, por ejemplo. Asigna tutora y define capacidad máxima. Onboarding no solo asigna un programa — asigna también tutora y grupo específico.',
+why:'Academic Offerings apunta a Academic Groups para saber en qué grupo se imparte cada materia. Student Services apunta a Academic Groups para saber a qué grupo pertenece el estudiante. Apunta a Products y a Intakes para definir la combinación programa+cohorte.',
+fields:[
+{n:'Group Name',es:'Nombre del grupo',t:'text'},
+{n:'Program',es:'Programa',t:'lookup → Products (Program)'},
+{n:'Intake',es:'Intake / Cohorte',t:'lookup → Intakes'},
+{n:'Group Code',es:'Código del grupo',t:'text'},
+{n:'Tutor Assigned',es:'Tutora asignada',t:'lookup → Users'},
+{n:'Capacity',es:'Capacidad máxima',t:'number'},
+{n:'Status',es:'Estado',t:'picklist',o:['Active — Activo','Closed — Cerrado']},
+{n:'Notes',es:'Notas',t:'multiline'},
+],
+rels:['products','intakes','student_services','academic_offerings']},
+
+{id:'academic_offerings',updated:'2026-05-06',l:1,name:'Academic Offerings',es:'Oferta Académica (Materias abiertas)',sub:'La materia real abierta para un grupo e intake',
+desc:'Instancia real y concreta de una materia: ABC123 Marketing | MBA | SPR26 | G1. Combina un curso base del catálogo con un programa, intake y grupo específico. Guarda los códigos reales de Canvas y Blackboard, fechas exactas, docente y estado. Sin este módulo no se puede matricular a nadie en algo real.',
+why:'Student Enrollments apunta aquí para registrar la matrícula real. CAP Items apunta aquí para planificar en qué materia abierta tomará cada curso del plan personalizado. Retake Cases apunta aquí para saber en cuál apertura concreta repetirá el estudiante.',
+fields:[
+{n:'Offering Name',es:'Nombre de la oferta',t:'text'},
+{n:'Base Product',es:'Curso base del catálogo',t:'lookup → Products'},
+{n:'Program',es:'Programa',t:'lookup → Products (Program)'},
+{n:'Intake',es:'Intake / Cohorte',t:'lookup → Intakes'},
+{n:'Academic Group',es:'Grupo académico',t:'lookup → Academic Groups'},
+{n:'Block Number',es:'Número de bloque',t:'number'},
+{n:'Base Course Code',es:'Código base del curso',t:'text'},
+{n:'Canvas Course Code',es:'Código en Canvas',t:'text'},
+{n:'Canvas Course ID',es:'ID en Canvas',t:'text'},
+{n:'Blackboard Reference',es:'Referencia en Blackboard',t:'text'},
+{n:'Start Date',es:'Fecha de inicio',t:'date'},
+{n:'End Date',es:'Fecha de cierre',t:'date'},
+{n:'Credits',es:'Créditos',t:'decimal'},
+{n:'Professor / Faculty',es:'Docente / Profesor',t:'text o lookup → Contacts'},
+{n:'Tutor Assigned',es:'Tutora asignada',t:'lookup → Users'},
+{n:'Status',es:'Estado',t:'picklist',o:['Planned — Planificado','Open — Abierto','Active — En curso','Closed — Cerrado']},
+{n:'Capacity',es:'Capacidad',t:'number'},
+{n:'Academic Calendar Reference',es:'Referencia al calendario académico (Andrés Sierra)',t:'text'},
+{n:'Calendar Sync Status',es:'Estado de sincronización con calendario',t:'picklist',o:['Pendiente — No sincronizado','Sincronizado','Con conflicto — Requiere revisión']},
+{n:'Is GIW Offering',es:'¿Es oferta GIW?',t:'checkbox'},
+{n:'Is Graduation Course',es:'¿Es curso de graduación?',t:'checkbox'},
+],
+rels:['products','intakes','academic_groups','student_enrollments','cap_items','retake_cases']},
+
+{id:'giw_sessions',updated:'2026-05-06',l:1,name:'GIW Sessions',es:'Sesiones GIW — Semanas Internacionales',sub:'Cada semana GIW con capacidad por ciudad',
+desc:'Registra cada semana internacional concreta: Miami Mar 2026, Madrid Oct 2026, Virtual UIDE, España EIG. Gestiona capacidad diferenciada por tipo de participante, fechas clave y precios de cambio tardío. Comercial consulta este módulo constantemente para confirmar disponibilidad. IMPORTANTE: los participantes de GIW que no son estudiantes del programa (externos, alumni, invitados corporativos) se registran directamente como Contacts y se asignan a una sesión mediante GIW Assignments, sin necesidad de un registro en Student Services.',
+why:'GIW Assignments apunta aquí para saber a qué sesión va cada participante. El campo de cupos ocupados es un rollup desde GIW Assignments, mostrando disponibilidad en tiempo real.',
+fields:[
+{n:'Session Name',es:'Nombre de la sesión',t:'text'},
+{n:'Session Type',es:'Tipo de sesión',t:'picklist',o:['Regular','UIDE','Virtual','EIG — Experiencia Internacional de Gestión','Upgrade']},
+{n:'City',es:'Ciudad',t:'text'},
+{n:'Partner School',es:'Escuela aliada',t:'text'},
+{n:'Program Applies To',es:'Programa(s) aplicables',t:'text'},
+{n:'Start Date',es:'Fecha de inicio',t:'date'},
+{n:'End Date',es:'Fecha de cierre',t:'date'},
+{n:'Student Capacity',es:'Capacidad de estudiantes',t:'number'},
+{n:'Staff Capacity',es:'Capacidad de staff',t:'number'},
+{n:'Occupied Seats',es:'Cupos ocupados',t:'rollup desde GIW Assignments'},
+{n:'Available Seats',es:'Cupos disponibles',t:'fórmula'},
+{n:'Change Deadline Date',es:'Fecha límite de cambio',t:'date'},
+{n:'Late Change Penalty',es:'Penalidad por cambio tardío',t:'currency'},
+{n:'Upgrade Price',es:'Precio de upgrade',t:'currency'},
+{n:'Status',es:'Estado',t:'picklist',o:['Open — Abierto','Closed — Cerrado','Completed — Finalizado']},
+],
+rels:['giw_assignments']},
+
+{id:'student_services',updated:'2026-05-06',l:2,name:'Student Services',es:'Servicios al Estudiante — Expediente académico',sub:'Vista consolidada del ciclo de vida académico del estudiante',
+desc:'El módulo más importante: el expediente académico operativo. Reemplaza el Excel matriz. Aquí se ve de un vistazo el estado académico, grupo, programa, Canvas, documentos, CAP activo, créditos acumulados y fecha de graduación estimada. Tiene dos layouts: Regular Student y External/Experience Participant.',
+why:'Es el nodo central. Recibe de Contacts (la persona), Deals (origen comercial), Products (programa), Intakes (cohorte) y Academic Groups (grupo). Genera todos los casos de excepción: LOA, CAP, Retake, Probation, Readmission, GIW y Graduation Readiness.',
+fields:[
+{n:'Student Service ID',es:'ID del expediente',t:'autonumber'},
+{n:'Contact',es:'Contacto — la persona',t:'lookup → Contacts'},
+{n:'Origin Deal',es:'Negocio de origen',t:'lookup → Deals'},
+{n:'Layout Type',es:'Tipo de layout',t:'picklist',o:['Regular Student — Estudiante regular','External / Experience — Externo o participante de experiencia']},
+{n:'Participant Type',es:'Tipo de participante',t:'picklist',o:['Student — Estudiante regular','UIDE Student — Estudiante UIDE','External Participant — Externo','Alumni — Egresado','Corporate Invite — Invitado corporativo']},
+{n:'Program',es:'Programa',t:'lookup → Products (Program)'},
+{n:'Original Intake',es:'Intake de ingreso original',t:'lookup → Intakes'},
+{n:'Current Intake',es:'Intake actual',t:'lookup → Intakes'},
+{n:'Academic Group',es:'Grupo académico',t:'lookup → Academic Groups'},
+{n:'Tutor Assigned',es:'Tutora asignada',t:'lookup → Users'},
+{n:'Academic Status',es:'Estado académico',t:'picklist',o:['Onboarding — En proceso de ingreso','Enrolled — Matriculado','Enrolled with CAP — Con plan personalizado','LOA — En licencia académica','Academic Probation — En período de prueba','Withdrawal — Retirado','Readmission in Process — En readmisión','Complete Pending Graduation — Completo pendiente graduación','Pending Graduation — Pendiente de graduación (pendiente def. Comité Académico)','Graduated — Graduado','No Show — No se presentó','Intake Deferral — Diferido a otro intake']},
+{n:'Current Block Number',es:'Número de bloque actual',t:'number'},
+{n:'Current Block Product',es:'Bloque actual en catálogo',t:'lookup → Products'},
+{n:'Canvas User Created',es:'Usuario creado en Canvas',t:'checkbox'},
+{n:'Canvas User Creation Date',es:'Fecha de creación en Canvas',t:'date'},
+{n:'Canvas Enrollment Enabled',es:'Matrícula en Canvas habilitada',t:'checkbox'},
+{n:'Admissions Documents Complete',es:'Documentos de admisión completos',t:'checkbox'},
+{n:'Financial Clearance Current Block',es:'Paz y salvo financiero — bloque actual',t:'checkbox'},
+{n:'Current GPA',es:'Promedio académico actual',t:'decimal'},
+{n:'Credits Earned',es:'Créditos aprobados',t:'rollup desde Student Enrollments'},
+{n:'Credits Pending',es:'Créditos pendientes',t:'fórmula'},
+{n:'Total LOA Days',es:'Total días de LOA acumulados',t:'rollup desde LOA Cases'},
+{n:'Open CAP',es:'¿Tiene CAP activo?',t:'checkbox'},
+{n:'Active CAP',es:'CAP activo',t:'lookup → CAP'},
+{n:'Expected Graduation Date',es:'Fecha esperada de graduación',t:'date'},
+{n:'Expected Graduation Intake',es:'Intake esperado de graduación',t:'lookup → Intakes'},
+{n:'Block 1 Start Date',es:'Fecha de inicio del Bloque 1',t:'date'},
+{n:'Program Deadline Date',es:'Fecha límite del programa (B1 + 2 años)',t:'fórmula'},
+{n:'Last Academic Action Date',es:'Fecha de última acción académica',t:'date'},
+{n:'Operational Summary',es:'Resumen operativo',t:'multiline'},
+],
+rels:['contacts','deals','products','intakes','academic_groups','student_enrollments','loa_cases','cap','retake_cases','probation_cases','readmission_cases','giw_assignments','graduation_readiness']},
+
+{id:'student_enrollments',l:2,name:'Student Enrollments',es:'Matrículas de Estudiantes',sub:'Matrícula real a cada materia abierta, curso por curso',
+desc:'Registra la matrícula individual de un estudiante a cada Academic Offering. Sin este módulo no existe control real: no se puede saber en qué materias está inscrito, si aprobó o reprobó, cuántos créditos acumuló, si cumplió prerequisitos o si existe en Canvas. Es el historial académico transaccional.',
+why:'Pertenece a un Student Services y apunta a un Academic Offering. De estos registros se calculan los rollups de créditos en Student Services y se alimenta Graduation Readiness. También origina Retake Cases cuando un curso es reprobado.',
+fields:[
+{n:'Enrollment ID',es:'ID de matrícula',t:'autonumber'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'Academic Offering',es:'Materia abierta',t:'lookup → Academic Offerings'},
+{n:'Block Number',es:'Número de bloque',t:'number'},
+{n:'Enrollment Type',es:'Tipo de matrícula',t:'picklist',o:['Normal','CAP — Plan personalizado','Retake — Repetición','GIW — Semana internacional','Graduation — Graduación','Readmission — Readmisión']},
+{n:'Canvas Enrollment Status',es:'Estado en Canvas',t:'picklist',o:['Pending — Pendiente','Enrolled — Matriculado','Dropped — Retirado','Completed — Completado']},
+{n:'User in Canvas Confirmed',es:'Usuario confirmado en Canvas',t:'checkbox'},
+{n:'Academic Status in Course',es:'Estado académico en el curso',t:'picklist',o:['Planned — Planificado','Enrolled — Matriculado','In Progress — En curso','Passed — Aprobado','Failed — Reprobado','Withdrawn — Retirado','Convalidated — Convalidado']},
+{n:'Final Grade',es:'Nota final',t:'decimal'},
+{n:'Passed',es:'Aprobado',t:'checkbox'},
+{n:'Credits',es:'Créditos del curso',t:'decimal'},
+{n:'Financial Check',es:'Paz y salvo financiero',t:'checkbox'},
+{n:'Documents Check',es:'Documentos completos',t:'checkbox'},
+{n:'Prerequisite Met',es:'Prerequisito cumplido',t:'checkbox'},
+{n:'Attempt Number',es:'Número de intento',t:'number'},
+{n:'Enrollment Start Date',es:'Fecha inicio matrícula',t:'date'},
+{n:'Enrollment End Date',es:'Fecha fin matrícula',t:'date'},
+{n:'Comments',es:'Comentarios',t:'multiline'},
+],
+rels:['student_services','academic_offerings','graduation_readiness','retake_cases']},
+
+{id:'loa_cases',l:3,name:'LOA Cases',es:'Casos de Licencia Académica',sub:'Leave of Absence — licencia formal con tiempo y documentos',
+desc:'Una licencia no es solo cambiar el estado a "LOA": tiene secuencia (primera o segunda), fechas exactas, documento firmado, acta de comité, días acumulados y alertas automáticas. Este módulo permite el control formal, el histórico y la lógica de retorno al intake correspondiente.',
+why:'Pertenece a Student Services (1:N, hasta 2 LOA). Apunta a Intakes para el retorno. Cuando la LOA activa necesidad de plan personalizado, genera un CAP vinculado a este caso.',
+fields:[
+{n:'LOA ID',es:'ID de la licencia',t:'autonumber'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'LOA Sequence',es:'Secuencia',t:'picklist',o:['1 — Primera LOA','2 — Segunda LOA']},
+{n:'Request Date',es:'Fecha de solicitud',t:'date'},
+{n:'LOA Start Date',es:'Fecha de inicio',t:'date'},
+{n:'LOA End Date',es:'Fecha de fin',t:'date'},
+{n:'Requested Days',es:'Días solicitados',t:'fórmula (End − Start)'},
+{n:'Accumulated LOA Days',es:'Días de LOA acumulados del estudiante',t:'rollup'},
+{n:'Reason',es:'Motivo',t:'multiline'},
+{n:'Signed Document Received',es:'Documento firmado recibido',t:'checkbox'},
+{n:'Committee Act Received',es:'Acta de comité recibida',t:'checkbox'},
+{n:'Status',es:'Estado',t:'picklist',o:['Requested — Solicitada','Approved — Aprobada','Rejected — Rechazada','Active — Activa','Expired — Vencida','Extended — Extendida','Closed — Cerrada']},
+{n:'Return Intake',es:'Intake de retorno',t:'lookup → Intakes'},
+{n:'Return Date Expected',es:'Fecha esperada de retorno',t:'date'},
+{n:'Alert 15 Days Before Sent',es:'Alerta 15 días antes — enviada',t:'checkbox'},
+{n:'Alert on Due Date Sent',es:'Alerta en vencimiento — enviada',t:'checkbox'},
+{n:'Outcome',es:'Resultado',t:'picklist',o:['Return — Retorno','Extend — Extensión','Withdrawal — Retiro definitivo']},
+],
+rels:['student_services','intakes','cap']},
+
+{id:'cap',l:3,name:'CAP',es:'Plan Académico Personalizado',sub:'Plan a medida cuando el estudiante sale de la ruta estándar',
+desc:'Mapa académico alternativo que se construye cuando el estudiante no puede seguir la ruta normal: por LOA, reprobados, readmisión o ajuste manual. Se arma mezclando materias de distintos intakes y grupos. Es el compromiso formal entre el estudiante y Student Services sobre cómo completará el programa.',
+why:'Pertenece a Student Services. Puede ser originado por LOA Case, Retake Case o Readmission Case. Sus ítems (CAP Items) apuntan a Academic Offerings concretos. Graduation Readiness verifica si existe un CAP abierto como condición de elegibilidad.',
+fields:[
+{n:'CAP ID',es:'ID del plan',t:'autonumber'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'Trigger Type',es:'Tipo de detonante',t:'picklist',o:['LOA — Licencia académica','Failed Course — Curso reprobado','Readmission — Readmisión','Manual Adjustment — Ajuste manual']},
+{n:'Origin LOA Case',es:'LOA que originó el plan',t:'lookup → LOA Cases'},
+{n:'Origin Retake Case',es:'Caso de repetición origen',t:'lookup → Retake Cases'},
+{n:'Origin Readmission Case',es:'Caso de readmisión origen',t:'lookup → Readmission Cases'},
+{n:'Created Date',es:'Fecha de creación',t:'date'},
+{n:'Tutor Owner',es:'Tutora responsable',t:'lookup → Users'},
+{n:'Status',es:'Estado',t:'picklist',o:['Draft — Borrador','Active — Activo','Completed — Completado','Cancelled — Cancelado']},
+{n:'Expected Graduation Date',es:'Fecha esperada de graduación',t:'date'},
+{n:'Expected Graduation Intake',es:'Intake esperado de graduación',t:'lookup → Intakes'},
+{n:'Notes',es:'Notas del plan',t:'multiline'},
+],
+rels:['student_services','cap_items','loa_cases','retake_cases','readmission_cases']},
+
+{id:'cap_items',l:3,name:'CAP Items',es:'Ítems del Plan Académico',sub:'Cada materia dentro del plan personalizado',
+desc:'Detalle del CAP: cada fila es una materia que el estudiante tomará como parte de su plan alternativo, con el intake en que la cursará, el grupo, la secuencia dentro del plan y el estado. Permite seguimiento ítem por ítem.',
+why:'Muchos ítems pertenecen a un CAP. Cada ítem apunta a un Academic Offering concreto donde se matriculará. Referencia Student Services directamente para reportes por estudiante sin cruzar por el CAP padre.',
+fields:[
+{n:'CAP Item ID',es:'ID del ítem',t:'autonumber'},
+{n:'CAP',es:'Plan al que pertenece',t:'lookup → CAP'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'Academic Offering',es:'Materia abierta asignada',t:'lookup → Academic Offerings'},
+{n:'Base Course Code',es:'Código base del curso',t:'text'},
+{n:'Base Course Name',es:'Nombre del curso',t:'text'},
+{n:'Intake to Take',es:'Intake en que tomará el curso',t:'lookup → Intakes'},
+{n:'Academic Group',es:'Grupo académico',t:'lookup → Academic Groups'},
+{n:'Block Sequence in CAP',es:'Secuencia en el plan',t:'number'},
+{n:'Credits',es:'Créditos',t:'decimal'},
+{n:'Status',es:'Estado',t:'picklist',o:['Planned — Planificado','Reserved — Reservado','Enrolled — Matriculado','Passed — Aprobado','Failed — Reprobado','Convalidated — Convalidado']},
+{n:'Mandatory',es:'¿Es obligatorio?',t:'checkbox'},
+{n:'Attempt Number',es:'Número de intento',t:'number'},
+{n:'Comments',es:'Comentarios',t:'multiline'},
+],
+rels:['cap','student_services','academic_offerings']},
+
+{id:'retake_cases',l:3,name:'Retake Cases',es:'Casos de Repetición de Materia',sub:'Proceso formal cuando un estudiante reprueba',
+desc:'Repetir una materia implica verificar pago adicional, aprobación de comité, en cuál apertura concreta se inscribirá y cómo conecta con el CAP. Este módulo controla el intento, el pago y la decisión académica.',
+why:'Pertenece a Student Services. Referencia el Enrollment original reprobado. Puede generar o vincularse a un CAP si el retraso afecta la ruta. Apunta a Academic Offering para saber en qué grupo y fecha se repetirá.',
+fields:[
+{n:'Retake Case ID',es:'ID del caso',t:'autonumber'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'Original Enrollment',es:'Matrícula original reprobada',t:'lookup → Student Enrollments'},
+{n:'Base Course Code',es:'Código base del curso',t:'text'},
+{n:'Base Course Name',es:'Nombre del curso',t:'text'},
+{n:'Attempt Number',es:'Número de intento',t:'number'},
+{n:'Payment Required',es:'¿Requiere pago?',t:'checkbox'},
+{n:'Payment Cleared',es:'Pago confirmado',t:'checkbox'},
+{n:'Committee Required',es:'¿Requiere comité?',t:'checkbox'},
+{n:'Committee Decision',es:'Decisión del comité',t:'picklist',o:['Pending — Pendiente','Approved — Aprobado','Rejected — Rechazado']},
+{n:'Assigned New Offering',es:'Nueva oferta asignada',t:'lookup → Academic Offerings'},
+{n:'Related CAP',es:'CAP relacionado',t:'lookup → CAP'},
+{n:'Status',es:'Estado',t:'picklist',o:['Pending Payment — Pendiente de pago','Ready to Enroll — Listo para matricular','Enrolled — Matriculado','Closed — Cerrado','Rejected — Rechazado']},
+],
+rels:['student_services','student_enrollments','academic_offerings','cap']},
+
+{id:'probation_cases',l:3,name:'Academic Probation Cases',es:'Casos de Período de Prueba Académica',sub:'Seguimiento cuando el GPA cae por debajo del mínimo',
+desc:'Cuando el promedio cae, no basta cambiar un campo: se necesita histórico del período de recuperación, el bloque detonante, si el comité intervino y el resultado. Este módulo permite control formal y evidencia de recuperación.',
+why:'Pertenece a Student Services (1:N, puede haber más de un período). Es fuente para reportes de riesgo académico y decisiones de comité.',
+fields:[
+{n:'Probation Case ID',es:'ID del caso',t:'autonumber'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'Start Date',es:'Fecha de inicio de probatoria',t:'date'},
+{n:'Initial GPA',es:'GPA al inicio',t:'decimal'},
+{n:'Recovery Block 1',es:'Bloque de recuperación 1',t:'text'},
+{n:'Recovery Block 2',es:'Bloque de recuperación 2',t:'text'},
+{n:'Current GPA',es:'GPA actual',t:'decimal'},
+{n:'Recovered',es:'¿Se recuperó?',t:'checkbox'},
+{n:'Committee Required',es:'¿Requiere comité?',t:'checkbox'},
+{n:'Committee Outcome',es:'Resultado del comité',t:'text'},
+{n:'Status',es:'Estado',t:'picklist',o:['Active — Activa','Recovered — Recuperado','Escalated — Escalado a comité','Cancelled — Cancelada']},
+],
+rels:['student_services']},
+
+{id:'readmission_cases',l:3,name:'Readmission Cases',es:'Casos de Readmisión',sub:'Proceso de reingreso tras retiro o vencimiento de plazo',
+desc:'La readmisión implica análisis académico, análisis financiero, cobro de tarifa ($150 USD o excepción), asignación a nuevo intake y posiblemente un nuevo CAP. Centraliza toda esa gestión en un caso formal.',
+why:'Pertenece a Student Services. Genera Readmission Equivalencies para convalidaciones y puede generar un CAP nuevo. Apunta a Intakes para el nuevo intake de ingreso.',
+fields:[
+{n:'Readmission Case ID',es:'ID del caso',t:'autonumber'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'Request Date',es:'Fecha de solicitud',t:'date'},
+{n:'Reason',es:'Motivo',t:'multiline'},
+{n:'Exceeded 2-Year Rule',es:'¿Excedió la regla de 2 años?',t:'checkbox'},
+{n:'Academic Analysis Complete',es:'Análisis académico completo',t:'checkbox'},
+{n:'Financial Analysis Complete',es:'Análisis financiero completo',t:'checkbox'},
+{n:'Readmission Fee',es:'Tarifa de readmisión',t:'currency'},
+{n:'Fee Waived',es:'Tarifa exonerada',t:'checkbox'},
+{n:'Fee Paid',es:'Tarifa pagada',t:'checkbox'},
+{n:'Approved',es:'Readmisión aprobada',t:'checkbox'},
+{n:'New Intake',es:'Nuevo intake asignado',t:'lookup → Intakes'},
+{n:'New CAP',es:'Nuevo CAP generado',t:'lookup → CAP'},
+{n:'New Expected Graduation Date',es:'Nueva fecha esperada de graduación',t:'date'},
+{n:'Status',es:'Estado',t:'picklist',o:['Draft — Borrador','In Review — En revisión','Approved — Aprobada','Rejected — Rechazada','Implemented — Implementada']},
+],
+rels:['student_services','intakes','cap','readmission_equiv']},
+
+{id:'readmission_equiv',l:3,name:'Readmission Equivalencies',es:'Equivalencias de Readmisión — Convalidaciones',sub:'Cursos previos reconocidos al reingresar',
+desc:'Al readmitir a un estudiante, el equipo analiza qué cursos del programa anterior pueden convalidarse. Cada convalidación es un registro independiente con el curso antiguo, el nuevo equivalente, créditos reconocidos y aprobación.',
+why:'Pertenece a un Readmission Case. Referencia Student Services para acceso directo desde el expediente del estudiante.',
+fields:[
+{n:'Equivalency ID',es:'ID de la equivalencia',t:'autonumber'},
+{n:'Readmission Case',es:'Caso de readmisión',t:'lookup → Readmission Cases'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'Old Course Code',es:'Código del curso anterior',t:'text'},
+{n:'Old Course Name',es:'Nombre del curso anterior',t:'text'},
+{n:'New Course Code',es:'Código del curso nuevo',t:'text'},
+{n:'New Course Name',es:'Nombre del curso nuevo',t:'text'},
+{n:'Credits Recognized',es:'Créditos reconocidos',t:'decimal'},
+{n:'Equivalency Type',es:'Tipo de reconocimiento',t:'picklist',o:['Convalidation — Convalidación','Transfer — Transferencia','Exemption — Exoneración']},
+{n:'Approved',es:'Aprobada',t:'checkbox'},
+{n:'Comments',es:'Comentarios',t:'multiline'},
+],
+rels:['readmission_cases','student_services']},
+
+{id:'giw_assignments',l:3,name:'GIW Assignments',es:'Asignaciones GIW — Semanas Internacionales',sub:'Elección, confirmación y seguimiento por participante',
+desc:'Gestiona todo el ciclo de participación en una semana internacional: elección de primera y segunda opción, aprobación de comité, confirmación, matrícula en Canvas, cambios tardíos (con penalidad) y estado final.',
+why:'Pertenece a Student Services (1:N, un estudiante puede tener varias asignaciones GIW en distintos períodos). Apunta a GIW Sessions para saber a cuál sesión va. El rollup de cupos en GIW Sessions viene de este módulo.',
+fields:[
+{n:'GIW Assignment ID',es:'ID de la asignación',t:'autonumber'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'Participant Type',es:'Tipo de participante',t:'picklist',o:['Student — Estudiante regular','UIDE Student — Estudiante UIDE','External — Externo','Alumni — Egresado','Corporate Invite — Invitado corporativo']},
+{n:'First Choice Session',es:'Primera opción',t:'lookup → GIW Sessions'},
+{n:'Second Choice Session',es:'Segunda opción',t:'lookup → GIW Sessions'},
+{n:'Choice Date',es:'Fecha de elección',t:'date'},
+{n:'Committee Status',es:'Estado en comité',t:'picklist',o:['Pending — Pendiente','Approved — Aprobado','Rejected — Rechazado']},
+{n:'Confirmed Session',es:'Sesión confirmada',t:'lookup → GIW Sessions'},
+{n:'Confirmation Date',es:'Fecha de confirmación',t:'date'},
+{n:'Canvas Enrollment Required',es:'¿Requiere matrícula en Canvas?',t:'checkbox'},
+{n:'Canvas Enrollment Done',es:'Matrícula en Canvas completada',t:'checkbox'},
+{n:'Change Deadline',es:'Fecha límite de cambio',t:'date'},
+{n:'Changed After Deadline',es:'¿Cambió después del límite?',t:'checkbox'},
+{n:'Late Change Penalty Amount',es:'Monto penalidad cambio tardío',t:'currency'},
+{n:'Late Change Penalty Paid',es:'Penalidad pagada',t:'checkbox'},
+{n:'Upgrade Paid',es:'Upgrade pagado',t:'checkbox'},
+{n:'Status',es:'Estado',t:'picklist',o:['Selected — Seleccionado','Under Review — En revisión','Confirmed — Confirmado','Changed — Modificado','Cancelled — Cancelado','Completed — Completado']},
+],
+rels:['student_services','giw_sessions']},
+
+{id:'graduation_readiness',l:3,name:'Graduation Readiness',es:'Elegibilidad de Graduación',sub:'Verificación formal de todos los requisitos de grado',
+desc:'Graduarse implica verificar créditos, documentos, estado financiero, cierre de CAPs y el curso de graduación. Este módulo permite que el sistema diga automáticamente quién está elegible y quién no, con evidencia de cada check.',
+why:'Pertenece a Student Services (1:1 activo). Apunta a Student Enrollments para verificar el curso de graduación. Apunta a Intakes para confirmar el intake de graduación esperado.',
+fields:[
+{n:'Graduation Readiness ID',es:'ID de elegibilidad',t:'autonumber'},
+{n:'Student',es:'Estudiante',t:'lookup → Student Services'},
+{n:'Expected Graduation Date',es:'Fecha esperada de graduación',t:'date'},
+{n:'Expected Graduation Intake',es:'Intake de graduación',t:'lookup → Intakes'},
+{n:'Required Credits',es:'Créditos requeridos (default 38)',t:'number'},
+{n:'Earned Credits',es:'Créditos aprobados',t:'decimal'},
+{n:'Credits Complete',es:'¿Créditos completos?',t:'checkbox'},
+{n:'Open CAP Exists',es:'¿Tiene CAP abierto?',t:'checkbox'},
+{n:'Academic Check Complete',es:'Verificación académica completa',t:'checkbox'},
+{n:'Financial Check Complete',es:'Verificación financiera completa',t:'checkbox'},
+{n:'Document Check Complete',es:'Verificación documental completa',t:'checkbox'},
+{n:'Graduation Course Enrollment',es:'Matrícula en curso de graduación',t:'lookup → Student Enrollments'},
+{n:'Eligible to Graduate',es:'¿Elegible para graduarse?',t:'checkbox'},
+{n:'Status',es:'Estado',t:'picklist',o:['In Review — En revisión','Eligible — Elegible','Not Eligible — No elegible','Graduated — Graduado']},
+{n:'Notes',es:'Observaciones',t:'multiline'},
+],
+rels:['student_services','student_enrollments','intakes']},
+];
+
+// ── JOURNEY–MODULE mapping ──────────────────────────────
+const J_MODULE_MAP = {
+  contacts:['admitido'],
+  deals:['admitido','reserva','matriculado'],
+  products:['admitido'],
+  intakes:['admitido','matriculado'],
+  student_services:['reserva','matriculado'],
+  academic_groups:['matriculado'],
+  academic_offerings:['matriculado'],
+  student_enrollments:['matriculado'],
+};
+const J_STAGE_LABEL = {admitido:'1 · Admitido',reserva:'2 · Reserva',matriculado:'3 · Matriculado'};
+
+// ── SIDEBAR ─────────────────────────────────────────────
+function buildSidebar(){
+  [1,2,3].forEach(l=>{
+    const el = document.getElementById('sb-l'+l);
+    M.filter(m=>m.l===l).forEach(m=>{
+      const d=document.createElement('div');
+      d.className='sb-mod-item';d.id='sbm-'+m.id;
+      d.textContent=m.name;
+      d.onclick=()=>openMod(m.id);
+      el.appendChild(d);
+    });
+  });
+}
+
+// ── NAVIGATION ──────────────────────────────────────────
+let curPage='modules';
+function nav(page, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.sb-item').forEach(b=>b.classList.remove('on'));
+  document.getElementById('page-'+page).classList.add('on');
+  btn.classList.add('on');
+  curPage=page;
+  document.getElementById('main').scrollTop=0;
+}
+
+// ── MODULE CARDS ─────────────────────────────────────────
+let aid=null;
+function buildCards(){
+  [1,2,3].forEach(l=>{
+    const g=document.getElementById('g'+l);
+    M.filter(m=>m.l===l).forEach(m=>{
+      const d=document.createElement('div');
+      d.className='mc';d.id='mc-'+m.id;
+      d.innerHTML='<div class="mc-name">'+m.name+'</div><div class="mc-es">'+m.es+'</div><div class="mc-meta">'+m.fields.length+' campos &middot; '+m.rels.length+' rels</div>'
+        +(m.updated?'<div class="mc-updated">&#9679; Actualizado May 6</div>':'');
+      d.onclick=()=>openMod(m.id);
+      g.appendChild(d);
+    });
+  });
+}
+
+const LB={1:'Capa 1 — Maestros',2:'Capa 2 — Operación',3:'Capa 3 — Excepciones'};
+const BC={1:'bl1',2:'bl2',3:'bl3'};
+
+function openMod(id){
+  // Switch to modules page
+  if(curPage!=='modules'){
+    nav('modules', document.getElementById('nav-modules'));
+  }
+  if(aid){
+    document.getElementById('mc-'+aid)?.classList.remove('on');
+    document.getElementById('sbm-'+aid)?.classList.remove('on');
+  }
+  aid=id;
+  document.getElementById('mc-'+id)?.classList.add('on');
+  document.getElementById('sbm-'+id)?.classList.add('on');
+  const m=M.find(x=>x.id===id);
+
+  // Journey appearances
+  const stages = J_MODULE_MAP[id]||[];
+  const jHtml = stages.length
+    ? '<div class="dbox dbox-j"><div class="dbox-lbl">&#128480; Aparece en el Journey</div><div class="dbox-p">Este módulo se activa en: <strong style="color:var(--c2)">'+stages.map(s=>J_STAGE_LABEL[s]).join(' &amp; ')+'</strong><br><span style="font-size:12px;cursor:pointer;color:var(--acc)" onclick="nav(\'journey\',document.getElementById(\'nav-journey\'))">Ver flujo completo &rarr;</span></div></div>'
+    : '';
+
+  const fh=m.fields.map(f=>{
+    const pills=f.o?'<div class="fp">'+f.o.map(o=>'<span class="pill">'+o+'</span>').join('')+'</div>':'';
+    return '<div class="fi"><div class="fr"><div><span class="fn">'+f.n+'</span> <span class="fes">&middot; '+f.es+'</span></div><span class="ft">'+f.t+'</span></div>'+pills+'</div>';
+  }).join('');
+
+  const rh=m.rels.map(rid=>{
+    const r=M.find(x=>x.id===rid);
+    return r?'<span class="rc" onclick="openMod(\''+rid+'\')">'+r.name+'</span>':'';
+  }).join('');
+
+  const updateBadge = m.updated
+    ? '<span style="font-size:10px;padding:3px 9px;border-radius:20px;background:rgba(63,207,170,0.12);border:1px solid rgba(63,207,170,0.3);color:var(--c2);flex-shrink:0">&#9679; Actualizado en reunión May 6</span>'
+    : '';
+
+  const dp=document.getElementById('dp');
+  dp.style.display='block';
+  dp.innerHTML=
+    '<div class="dh"><div><div class="dn">'+m.name+'</div><div class="dne">'+m.es+'</div></div>'
+    +'<div style="display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap">'
+    + updateBadge
+    +'<span class="dbg '+BC[m.l]+'">'+LB[m.l]+'</span>'
+    +'<button class="xb" onclick="closeMod()">&#x2715;</button></div></div>'
+    +'<div class="dbox dbox-d"><div class="dbox-lbl">&#128203; Qu&eacute; es y para qu&eacute; sirve</div><div class="dbox-p">'+m.desc+'</div></div>'
+    +'<div class="dbox dbox-r"><div class="dbox-lbl">&#128279; Por qu&eacute; se relaciona con otros m&oacute;dulos</div><div class="dbox-p">'+m.why+'</div><div class="rl">'+rh+'</div></div>'
+    + jHtml
+    +'<div class="sl2">Campos clave</div><div class="fl">'+fh+'</div>';
+
+  dp.innerHTML=
+    '<div class="dh"><div><div class="dn">'+m.name+'</div><div class="dne">'+m.es+'</div></div>'
+    +'<div style="display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap">'
+    + updateBadge
+    +'<span class="dbg '+BC[m.l]+'">'+LB[m.l]+'</span>'
+    +'<button class="xb" onclick="closeMod()">&#x2715;</button></div></div>'
+    +'<div class="dbox dbox-d"><div class="dbox-lbl">&#128203; Qu&eacute; es y para qu&eacute; sirve</div><div class="dbox-p">'+m.desc+'</div></div>'
+    +'<div class="dbox dbox-r"><div class="dbox-lbl">&#128279; Por qu&eacute; se relaciona con otros m&oacute;dulos</div><div class="dbox-p">'+m.why+'</div><div class="rl">'+rh+'</div></div>'
+    + jHtml
+    +'<div class="sl2">Campos clave</div><div class="fl">'+fh+'</div>'
+    +'<div class="sl2" style="margin-top:1.5rem">Comentarios del cliente</div>'
+    +'<div id="comment-section-'+id+'"><div style="font-size:12px;color:var(--t3);padding:10px 0">Cargando comentarios…</div></div>'
+    +'<div style="margin-top:1rem;display:flex;gap:8px;align-items:flex-start">'
+    +'<textarea id="comment-input-'+id+'" placeholder="Escribe tu comentario sobre este módulo..." style="flex:1;background:var(--bg3);border:1px solid var(--b2);border-radius:8px;padding:10px 12px;color:var(--t1);font-family:DM Sans,sans-serif;font-size:13px;resize:vertical;min-height:72px;outline:none;line-height:1.6"></textarea>'
+    +'<div style="display:flex;flex-direction:column;gap:6px">'
+    +'<button onclick="saveComment(\''+id+'\')" style="background:var(--acc);border:none;border-radius:8px;padding:8px 14px;color:#fff;font-family:Syne,sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">&#128172; Guardar</button>'
+    +'<button onclick="downloadExcel(\''+id+'\')" style="background:var(--bg4);border:1px solid var(--b2);border-radius:8px;padding:8px 14px;color:var(--c2);font-family:Syne,sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">&#128229; Plantilla Excel</button>'
+    +'</div></div>';
+
+  // Start real-time listener for this module's comments
+  listenComments(id);
+  setTimeout(()=>dp.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+function closeMod(){
+  document.getElementById('dp').style.display='none';
+  document.getElementById('dp').innerHTML='';
+  if(aid){
+    document.getElementById('mc-'+aid)?.classList.remove('on');
+    document.getElementById('sbm-'+aid)?.classList.remove('on');
+  }
+  aid=null;
+}
+
+// ── COMMENT SYSTEM — Firebase Realtime ──────────────────
+// Live listeners per module
+const _listeners = {};
+
+function getDb(){
+  if(!window.db){ console.warn('Firebase no listo todavía'); return null; }
+  return window.db;
+}
+function listenComments(modId){
+  if(_listeners[modId]) return; // already listening
+  var _db=getDb(); if(!_db) return;
+  const ref = _db.ref('comments/'+modId);
+  _listeners[modId] = ref.on('value', snap=>{
+    const sec = document.getElementById('comment-section-'+modId);
+    if(sec) sec.innerHTML = renderCommentsData(snap.val());
+    updateChangelogSidebar();
+  });
+}
+
+function saveComment(modId){
+  const inp = document.getElementById('comment-input-'+modId);
+  const text = inp.value.trim();
+  if(!text) return;
+  const btn = inp.nextElementSibling?.querySelector('button');
+  if(btn){ btn.textContent='Guardando…'; btn.disabled=true; }
+  const entry = {
+    text,
+    date: new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+    author: prompt('¿Tu nombre?','Cliente') || 'Cliente',
+    ts: Date.now()
+  };
+  var _db=getDb(); if(!_db) return;
+  _db.ref('comments/'+modId).push(entry)
+    .then(()=>{ inp.value=''; if(btn){btn.textContent='💬 Guardar';btn.disabled=false;} })
+    .catch(e=>{ alert('Error al guardar: '+e.message); if(btn){btn.textContent='💬 Guardar';btn.disabled=false;} });
+}
+
+function deleteComment(modId, commentKey){
+  if(!confirm('¿Eliminar este comentario?')) return;
+  var _db=getDb(); if(!_db) return;
+  _db.ref('comments/'+modId+'/'+commentKey).remove();
+}
+
+function renderCommentsData(data){
+  if(!data) return '<div style="font-size:12px;color:var(--t3);padding:10px 0">Sin comentarios todavía. Sé el primero.</div>';
+  const entries = Object.entries(data).sort((a,b)=>b[1].ts-a[1].ts);
+  return entries.map(([key,c])=>`
+    <div style="background:var(--bg3);border:1px solid var(--b1);border-left:3px solid var(--acc);border-radius:8px;padding:10px 12px;margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:5px">
+        <div style="font-size:11px;color:var(--c1);font-weight:600">&#128100; ${c.author} &nbsp;·&nbsp; <span style="color:var(--t3);font-weight:400">${c.date}</span></div>
+        <button onclick="deleteComment('${modId}','${key}')" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:13px;padding:0;line-height:1" title="Eliminar">&#10005;</button>
+      </div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.6">${c.text.replace(/\n/g,'<br>')}</div>
+    </div>`).join('');
+}
+
+// Sidebar: shows last 8 comments across all modules in real time
+function updateChangelogSidebar(){
+  const el = document.getElementById('sb-comments-list');
+  if(!el) return;
+  // Pull latest snapshot from Firebase for sidebar summary
+  var _db=getDb(); if(!_db) return;
+  _db.ref('comments').once('value', snap=>{
+    const all = [];
+    snap.forEach(modSnap=>{
+      const modId = modSnap.key;
+      const mod = M.find(x=>x.id===modId);
+      modSnap.forEach(c=>{
+        all.push({mod: mod?mod.name:modId, ...c.val()});
+      });
+    });
+    all.sort((a,b)=>b.ts-a.ts);
+    if(!all.length){
+      el.innerHTML='<div style="font-size:11px;color:var(--t3);padding:4px 0">Sin comentarios aún.</div>';
+      return;
+    }
+    el.innerHTML = all.slice(0,8).map(c=>`
+      <div style="margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--b1)">
+        <div style="font-size:10px;color:var(--c1);font-weight:600;margin-bottom:2px">${c.mod}</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.5">${c.text.length>80?c.text.slice(0,80)+'…':c.text}</div>
+        <div style="font-size:10px;color:var(--t3);margin-top:2px">${c.date} · ${c.author}</div>
+      </div>`).join('');
+  });
+}
+
+function exportAllComments(){
+  var _db=getDb(); if(!_db) return;
+  _db.ref('comments').once('value', snap=>{
+    const rows = [];
+    snap.forEach(modSnap=>{
+      const modId = modSnap.key;
+      const mod = M.find(x=>x.id===modId);
+      modSnap.forEach(c=>{
+        const v = c.val();
+        rows.push({Módulo: mod?mod.name:modId, Fecha:v.date, Autor:v.author, Comentario:v.text});
+      });
+    });
+    if(!rows.length){ alert('No hay comentarios para exportar.'); return; }
+    rows.sort((a,b)=>a.Módulo.localeCompare(b.Módulo));
+    const ws = XLSX.utils.json_to_sheet(rows);
+    ws['!cols']=[{wch:25},{wch:20},{wch:15},{wch:80}];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Comentarios');
+    XLSX.writeFile(wb, 'Comentarios_Westfield_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  });
+}
+
+// ── EXCEL TEMPLATE DOWNLOAD ──────────────────────────────
+function downloadExcel(modId){
+  const m = M.find(x=>x.id===modId);
+  if(!m) return;
+
+  // Sheet 1: Field reference
+  const refRows = m.fields.map(f=>({
+    'Campo (Zoho)': f.n,
+    'Nombre en español': f.es,
+    'Tipo de campo': f.t,
+    'Opciones / Valores permitidos': f.o ? f.o.join(' | ') : '',
+    'Obligatorio': ['autonumber'].includes(f.t) ? 'Auto' : (f.n.toLowerCase().includes('id')||f.n==='Student'||f.n==='Contact'||f.n==='CAP'||f.n==='Enrollment ID'?'Sí':''),
+    'Notas / Instrucciones': f.t==='lookup'||f.t.startsWith('lookup')?'Referenciar ID del registro relacionado':f.t==='autonumber'?'Generado automáticamente por Zoho — dejar vacío':f.t==='fórmula'||f.t.startsWith('rollup')?'Calculado automáticamente — dejar vacío':f.t==='checkbox'?'Escribir: VERDADERO o FALSO':''
+  }));
+
+  // Sheet 2: Data template — header row + 5 empty rows
+  const templateHeaders = {};
+  m.fields.filter(f=>!['autonumber','fórmula','rollup','rollup desde GIW Assignments','rollup desde LOA Cases','rollup desde Student Enrollments','fórmula (End − Start)','fórmula (rollup)'].some(x=>f.t.startsWith(x))).forEach(f=>{
+    templateHeaders[f.n + ' / ' + f.es] = '';
+  });
+  const templateRows = [templateHeaders];
+  for(let i=0;i<4;i++){
+    const row={};
+    Object.keys(templateHeaders).forEach(k=>row[k]='');
+    templateRows.push(row);
+  }
+
+  const wb = XLSX.utils.book_new();
+
+  // Sheet 1 — Referencia de campos
+  const ws1 = XLSX.utils.json_to_sheet(refRows);
+  ws1['!cols']=[{wch:30},{wch:35},{wch:20},{wch:60},{wch:12},{wch:45}];
+  // Style header row
+  const range1 = XLSX.utils.decode_range(ws1['!ref']);
+  for(let C=range1.s.c;C<=range1.e.c;C++){
+    const addr = XLSX.utils.encode_cell({r:0,c:C});
+    if(ws1[addr]) ws1[addr].s = {fill:{fgColor:{rgb:'1E2128'}},font:{bold:true,color:{rgb:'F2F3F6'}},alignment:{wrapText:true}};
+  }
+  XLSX.utils.book_append_sheet(wb, ws1, 'Referencia de campos');
+
+  // Sheet 2 — Plantilla de carga
+  const ws2 = XLSX.utils.json_to_sheet(templateRows);
+  const range2 = XLSX.utils.decode_range(ws2['!ref']);
+  ws2['!cols'] = Array(range2.e.c+1).fill({wch:28});
+  // Header style
+  for(let C=range2.s.c;C<=range2.e.c;C++){
+    const addr = XLSX.utils.encode_cell({r:0,c:C});
+    if(ws2[addr]) ws2[addr].s = {fill:{fgColor:{rgb:'3A5FD6'}},font:{bold:true,color:{rgb:'FFFFFF'}},alignment:{wrapText:true}};
+  }
+  // Data rows alternating
+  for(let R=1;R<=range2.e.r;R++){
+    for(let C=range2.s.c;C<=range2.e.c;C++){
+      const addr = XLSX.utils.encode_cell({r:R,c:C});
+      if(!ws2[addr]) ws2[addr]={t:'s',v:''};
+      ws2[addr].s={fill:{fgColor:{rgb:R%2===0?'F5F6F8':'FFFFFF'}},alignment:{wrapText:true}};
+    }
+  }
+  XLSX.utils.book_append_sheet(wb, ws2, 'Plantilla de carga');
+
+  // Sheet 3 — Picklist options reference
+  const picklistFields = m.fields.filter(f=>f.o&&f.o.length);
+  if(picklistFields.length){
+    const plRows = [];
+    picklistFields.forEach(f=>{
+      f.o.forEach((opt,i)=>{
+        plRows.push({'Campo':i===0?f.n:'','Nombre español':i===0?f.es:'','Opción válida':opt});
+      });
+      plRows.push({'Campo':'','Nombre español':'','Opción válida':''}); // blank separator
+    });
+    const ws3 = XLSX.utils.json_to_sheet(plRows);
+    ws3['!cols']=[{wch:30},{wch:35},{wch:60}];
+    const range3=XLSX.utils.decode_range(ws3['!ref']);
+    for(let C=range3.s.c;C<=range3.e.c;C++){
+      const addr=XLSX.utils.encode_cell({r:0,c:C});
+      if(ws3[addr])ws3[addr].s={fill:{fgColor:{rgb:'1A9E80'}},font:{bold:true,color:{rgb:'FFFFFF'}}};
+    }
+    XLSX.utils.book_append_sheet(wb, ws3, 'Opciones de Picklist');
+  }
+
+  XLSX.writeFile(wb, 'Plantilla_'+m.name.replace(/\s+/g,'_')+'_Westfield.xlsx');
+}
+
+// ── RELATION DIAGRAM ────────────────────────────────────
+const NP={
+  contacts:{x:20,y:40,w:185,h:66},accounts:{x:20,y:148,w:185,h:66},deals:{x:20,y:256,w:185,h:66},
+  products:{x:325,y:40,w:195,h:66},intakes:{x:325,y:148,w:195,h:66},academic_groups:{x:325,y:256,w:195,h:66},academic_offerings:{x:325,y:364,w:195,h:66},giw_sessions:{x:325,y:472,w:195,h:66},
+  student_services:{x:640,y:180,w:210,h:78},student_enrollments:{x:640,y:322,w:210,h:66},giw_assignments:{x:640,y:472,w:210,h:66},graduation_readiness:{x:640,y:600,w:210,h:78},
+  loa_cases:{x:970,y:40,w:195,h:66},cap:{x:970,y:148,w:195,h:66},cap_items:{x:970,y:256,w:195,h:66},retake_cases:{x:970,y:364,w:195,h:66},probation_cases:{x:970,y:472,w:195,h:66},readmission_cases:{x:970,y:580,w:195,h:66},readmission_equiv:{x:970,y:688,w:195,h:66}
+};
+const EDGES=[
+  {f:'contacts',t:'student_services',lb:'1:N'},{f:'contacts',t:'deals',lb:'1:N'},{f:'contacts',t:'giw_assignments',lb:'1:N'},
+  {f:'deals',t:'student_services',lb:'origina'},{f:'deals',t:'products',lb:'lookup'},{f:'deals',t:'intakes',lb:'lookup'},
+  {f:'products',t:'academic_offerings',lb:'1:N'},{f:'products',t:'academic_groups',lb:'1:N'},{f:'products',t:'student_services',lb:'programa'},
+  {f:'intakes',t:'academic_groups',lb:'1:N'},{f:'intakes',t:'academic_offerings',lb:'1:N'},{f:'intakes',t:'student_services',lb:'lookup'},
+  {f:'academic_groups',t:'academic_offerings',lb:'1:N'},{f:'academic_groups',t:'student_services',lb:'lookup'},
+  {f:'academic_offerings',t:'student_enrollments',lb:'1:N'},
+  {f:'student_services',t:'student_enrollments',lb:'1:N'},{f:'student_services',t:'giw_assignments',lb:'1:N'},{f:'student_services',t:'graduation_readiness',lb:'1:1'},
+  {f:'student_services',t:'loa_cases',lb:'1:N'},{f:'student_services',t:'cap',lb:'1:N'},{f:'student_services',t:'retake_cases',lb:'1:N'},{f:'student_services',t:'probation_cases',lb:'1:N'},{f:'student_services',t:'readmission_cases',lb:'1:N'},
+  {f:'student_enrollments',t:'graduation_readiness',lb:'verifica'},{f:'student_enrollments',t:'retake_cases',lb:'origen'},
+  {f:'loa_cases',t:'cap',lb:'genera'},{f:'retake_cases',t:'cap',lb:'genera'},{f:'readmission_cases',t:'cap',lb:'genera'},
+  {f:'cap',t:'cap_items',lb:'1:N'},{f:'cap_items',t:'academic_offerings',lb:'lookup'},
+  {f:'readmission_cases',t:'readmission_equiv',lb:'1:N'},{f:'giw_sessions',t:'giw_assignments',lb:'1:N'}
+];
+const LC={1:'#6c8fff',2:'#3fcfaa',3:'#f0a840'};
+const LCLS={1:'nl1',2:'nl2',3:'nl3'};
+const CW=1200,CH=820;
+let sc=1,px=0,py=0,pan=false,lx2=0,ly2=0,an=null;
+
+function bpath(pa,pb){
+  const sx=pa.x+pa.w/2,sy=pa.y+pa.h/2,tx=pb.x+pb.w/2,ty=pb.y+pb.h/2;
+  const same=Math.abs(sx-tx)<40;
+  if(same){const d=ty>sy,x1=sx,y1=d?pa.y+pa.h:pa.y,x2=tx,y2=d?pb.y:pb.y+pb.h,my=(y1+y2)/2;return'M'+x1+','+y1+' C'+x1+','+my+' '+x2+','+my+' '+x2+','+y2;}
+  const gr=tx>sx,x1=gr?pa.x+pa.w:pa.x,x2=gr?pb.x:pb.x+pb.w,mx=(x1+x2)/2;
+  return'M'+x1+','+sy+' C'+mx+','+sy+' '+mx+','+ty+' '+x2+','+ty;
+}
+
+function buildDiag(){
+  const cv=document.getElementById('cv');cv.style.width=CW+'px';cv.style.height=CH+'px';
+  const sv=document.getElementById('svgl');sv.setAttribute('width',CW);sv.setAttribute('height',CH);sv.setAttribute('viewBox','0 0 '+CW+' '+CH);
+  const df=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  [{id:'ad',c:'rgba(255,255,255,0.2)'},{id:'a1',c:'#6c8fff'},{id:'a2',c:'#3fcfaa'},{id:'a3',c:'#f0a840'},{id:'ah',c:'#ffffff'}].forEach(({id,c})=>{
+    const mk=document.createElementNS('http://www.w3.org/2000/svg','marker');
+    mk.setAttribute('id',id);mk.setAttribute('viewBox','0 0 10 10');mk.setAttribute('refX','9');mk.setAttribute('refY','5');mk.setAttribute('markerWidth','7');mk.setAttribute('markerHeight','7');mk.setAttribute('orient','auto-start-reverse');
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d','M1,2 L8,5 L1,8');p.setAttribute('fill','none');p.setAttribute('stroke',c);p.setAttribute('stroke-width','1.5');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');mk.appendChild(p);df.appendChild(mk);
+  });
+  sv.appendChild(df);
+  [{label:'CAPA 1 — MAESTROS',x:308,w:235,c:'rgba(108,143,255,0.05)',bd:'rgba(108,143,255,0.18)'},{label:'CAPA 2 — OPERACIÓN',x:623,w:248,c:'rgba(63,207,170,0.05)',bd:'rgba(63,207,170,0.18)'},{label:'CAPA 3 — EXCEPCIONES',x:953,w:228,c:'rgba(240,168,64,0.05)',bd:'rgba(240,168,64,0.18)'}].forEach(b=>{
+    const r=document.createElementNS('http://www.w3.org/2000/svg','rect');r.setAttribute('x',b.x);r.setAttribute('y',10);r.setAttribute('width',b.w);r.setAttribute('height',CH-20);r.setAttribute('rx',12);r.setAttribute('fill',b.c);r.setAttribute('stroke',b.bd);r.setAttribute('stroke-width','1');sv.appendChild(r);
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',b.x+b.w/2);t.setAttribute('y',24);t.setAttribute('text-anchor','middle');t.setAttribute('fill','rgba(255,255,255,0.30)');t.setAttribute('font-size','9');t.setAttribute('font-family','DM Sans,sans-serif');t.setAttribute('font-weight','700');t.setAttribute('letter-spacing','0.1em');t.textContent=b.label;sv.appendChild(t);
+  });
+  EDGES.forEach(e=>{
+    const pa=NP[e.f],pb=NP[e.t];if(!pa||!pb)return;
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',bpath(pa,pb));p.setAttribute('fill','none');p.setAttribute('stroke','rgba(255,255,255,0.18)');p.setAttribute('stroke-width','1.5');p.setAttribute('marker-end','url(#ad)');p.setAttribute('data-from',e.f);p.setAttribute('data-to',e.t);p.id='e-'+e.f+'-'+e.t;sv.appendChild(p);
+    if(e.lb){
+      const sx=pa.x+pa.w/2,sy=pa.y+pa.h/2,tx=pb.x+pb.w/2,ty=pb.y+pb.h/2,same=Math.abs(sx-tx)<40,gr=tx>sx;
+      let lbx=same?sx+8:(gr?pa.x+pa.w+(pb.x-pa.x-pa.w)/2:(pa.x-(pa.x-pb.x-pb.w)/2)),lby=(sy+ty)/2;
+      if(!same){const x1=gr?pa.x+pa.w:pa.x,x2=gr?pb.x:pb.x+pb.w;lbx=(x1+x2)/2;}
+      const bg=document.createElementNS('http://www.w3.org/2000/svg','rect');bg.setAttribute('x',lbx-14);bg.setAttribute('y',lby-7);bg.setAttribute('width',28);bg.setAttribute('height',14);bg.setAttribute('rx',3);bg.setAttribute('fill','#1e2128');bg.setAttribute('data-from',e.f);bg.setAttribute('data-to',e.t);bg.setAttribute('class','elb');sv.appendChild(bg);
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',lbx);t.setAttribute('y',lby);t.setAttribute('text-anchor','middle');t.setAttribute('dominant-baseline','middle');t.setAttribute('fill','rgba(255,255,255,0.45)');t.setAttribute('font-size','9');t.setAttribute('font-family','DM Sans,sans-serif');t.setAttribute('data-from',e.f);t.setAttribute('data-to',e.t);t.setAttribute('class','elt');t.textContent=e.lb;sv.appendChild(t);
+    }
+  });
+  M.forEach(m=>{const p=NP[m.id];if(!p)return;
+    const nd=document.createElement('div');nd.className='nd '+LCLS[m.l];nd.id='nd-'+m.id;nd.style.cssText='left:'+p.x+'px;top:'+p.y+'px;width:'+p.w+'px;min-height:'+p.h+'px';
+    nd.innerHTML='<div class="nt1">'+m.name+'</div><div class="nes">'+m.es+'</div><div class="ns">'+m.sub+'</div>';
+    nd.onclick=ev=>{ev.stopPropagation();hlNode(m.id);};nd.onmouseenter=ev=>showTT(ev,m);nd.onmouseleave=hideTT;cv.appendChild(nd);
+  });
+  resetV();
+}
+function hlNode(id){
+  if(an===id){clrHL();return;}an=id;
+  const m=M.find(x=>x.id===id),par=new Set(EDGES.filter(e=>e.t===id).map(e=>e.f)),chi=new Set(EDGES.filter(e=>e.f===id).map(e=>e.t));
+  M.forEach(x=>{const nd=document.getElementById('nd-'+x.id);if(!nd)return;nd.classList.remove('hl','hp','hc');
+    if(x.id===id){nd.style.opacity='1';nd.classList.add('hl');}else if(par.has(x.id)){nd.style.opacity='1';nd.classList.add('hp');}else if(chi.has(x.id)){nd.style.opacity='1';nd.classList.add('hc');}else nd.style.opacity='0.12';
+  });
+  const lc=LC[m.l];
+  document.querySelectorAll('#svgl path[data-from]').forEach(p=>{const f=p.dataset.from,t=p.dataset.to;
+    if(f===id){p.setAttribute('stroke',lc);p.setAttribute('stroke-width','2.5');p.setAttribute('marker-end','url(#ah)');}
+    else if(t===id){const fm=M.find(x=>x.id===f);p.setAttribute('stroke',fm?LC[fm.l]:'#fff');p.setAttribute('stroke-width','2');p.setAttribute('marker-end','url(#ah)');}
+    else{p.setAttribute('stroke','rgba(255,255,255,0.04)');p.setAttribute('stroke-width','1');p.setAttribute('marker-end','url(#ad)');}
+  });
+  document.querySelectorAll('.elt').forEach(t=>{const a=t.dataset.from===id||t.dataset.to===id;t.setAttribute('fill',a?'rgba(255,255,255,0.92)':'rgba(255,255,255,0.05)');if(a)t.setAttribute('font-weight','700');else t.removeAttribute('font-weight');});
+  document.querySelectorAll('.elb').forEach(r=>{r.setAttribute('fill',r.dataset.from===id||r.dataset.to===id?'#2a2f3a':'#13151a');});
+}
+function clrHL(){
+  an=null;M.forEach(x=>{const nd=document.getElementById('nd-'+x.id);if(nd){nd.style.opacity='1';nd.classList.remove('hl','hp','hc');}});
+  document.querySelectorAll('#svgl path[data-from]').forEach(p=>{p.setAttribute('stroke','rgba(255,255,255,0.18)');p.setAttribute('stroke-width','1.5');p.setAttribute('marker-end','url(#ad)');});
+  document.querySelectorAll('.elt').forEach(t=>t.setAttribute('fill','rgba(255,255,255,0.45)'));
+  document.querySelectorAll('.elb').forEach(r=>r.setAttribute('fill','#13151a'));
+}
+function showTT(e,m){
+  const par=EDGES.filter(x=>x.t===m.id).map(x=>{const p=M.find(z=>z.id===x.f);return p?p.name:'';}).filter(Boolean);
+  const chi=EDGES.filter(x=>x.f===m.id).map(x=>{const p=M.find(z=>z.id===x.t);return p?p.name:'';}).filter(Boolean);
+  document.getElementById('tt').innerHTML='<strong style="color:var(--t1)">'+m.name+'</strong> <span style="color:var(--t3);font-size:10px;font-style:italic">'+m.es+'</span><br><span style="color:var(--t2);font-size:11px">'+m.sub+'</span>'+(par.length?'<br><span style="color:#6c8fff;font-size:10px">&#9664; Recibe de: '+par.join(', ')+'</span>':'')+(chi.length?'<br><span style="color:#3fcfaa;font-size:10px">&#9654; Alimenta: '+chi.join(', ')+'</span>':'');
+  document.getElementById('tt').style.display='block';mTT(e);
+}
+function hideTT(){document.getElementById('tt').style.display='none';}
+function mTT(e){const t=document.getElementById('tt');t.style.left=(e.clientX+14)+'px';t.style.top=(e.clientY-8)+'px';}
+document.addEventListener('mousemove',e=>{if(document.getElementById('tt').style.display==='block')mTT(e);});
+function applyT(){document.getElementById('cv').style.transform='translate('+px+'px,'+py+'px) scale('+sc+')';}
+function zoom(d){sc=Math.min(2.2,Math.max(0.3,sc+d));applyT();}
+function resetV(){sc=0.6;px=10;py=8;applyT();}
+
+// ── JOURNEY UNIFIED DIAGRAM ──────────────────────────────
+const JCW=960, JCH=560;
+let jsc=1,jpx=0,jpy=0,jpan=false,jlx=0,jly=0;
+
+// Layout: journey steps column (x:20) → module column A (x:240) → module column B (x:440) → module column C (x:640)
+// Swimlane bands cover full width per stage
+const JNODES = [
+  // ── Journey step nodes (left column) ──
+  {id:'j-admitido', type:'com',     x:20,  y:50,  w:155,h:58, label:'1 · Admitido',    sub:'Solo Comercial — SS no interviene'},
+  {id:'j-reserva',  type:'both',    x:20,  y:180, w:155,h:58, label:'2 · Reserva',     sub:'Comercial + SS inicia onboarding'},
+  {id:'j-canvas',   type:'ss',      x:20,  y:310, w:155,h:58, label:'3a · Crea Canvas',sub:'SS activa usuario en plataforma'},
+  {id:'j-grupo',    type:'ss',      x:20,  y:390, w:155,h:58, label:'3b · Asigna grupo',sub:'SS · tutora · intake'},
+  {id:'j-enroll',   type:'ss',      x:20,  y:470, w:155,h:58, label:'3c · Matricula',  sub:'SS · cursos del Bloque 1'},
+  // ── Módulos activados por Admitido (col A, zona alta) ──
+  {id:'contacts',   type:'mod',     x:240, y:20,  w:155,h:50, label:'Contacts',        sub:'Maestro de personas'},
+  {id:'deals',      type:'mod',     x:240, y:82,  w:155,h:50, label:'Deals',           sub:'Proceso comercial'},
+  {id:'products',updated:'2026-05-06',   type:'mod',     x:240, y:144, w:155,h:50, label:'Products',        sub:'Catálogo académico'},
+  {id:'intakes',updated:'2026-05-06',    type:'mod',     x:240, y:206, w:155,h:50, label:'Intakes',         sub:'Cohortes'},
+  // ── Módulos activados por Reserva → Matriculado (col B) ──
+  {id:'student_services',updated:'2026-05-06',   type:'mod', x:450, y:170, w:165,h:58, label:'Student Services',   sub:'Expediente del estudiante'},
+  {id:'academic_groups',    type:'mod', x:450, y:350, w:165,h:50, label:'Academic Groups',     sub:'Grupo + tutora'},
+  {id:'academic_offerings',updated:'2026-05-06', type:'mod', x:450, y:420, w:165,h:50, label:'Academic Offerings',  sub:'Materias abiertas'},
+  // ── Resultado final (col C) ──
+  {id:'student_enrollments',type:'mod', x:670, y:420, w:165,h:50, label:'Student Enrollments', sub:'Matrícula real'},
+  // ── Caso especial (col C, zona alta) ──
+  {id:'j-special',  type:'special', x:670, y:80,  w:155,h:56, label:'Caso especial',   sub:'Exception Type en el Deal'},
+];
+
+const JEDGES = [
+  // ── Flujo vertical entre pasos ──
+  {f:'j-admitido', t:'j-reserva',  type:'flow'},
+  {f:'j-reserva',  t:'j-canvas',   type:'flow'},
+  {f:'j-canvas',   t:'j-grupo',    type:'flow'},
+  {f:'j-grupo',    t:'j-enroll',   type:'flow'},
+  // ── Admitido activa módulos ──
+  {f:'j-admitido', t:'contacts',   type:'act'},
+  {f:'j-admitido', t:'deals',      type:'act'},
+  {f:'j-admitido', t:'products',   type:'act'},
+  {f:'j-admitido', t:'intakes',    type:'act'},
+  // ── Reserva activa SS ──
+  {f:'j-reserva',  t:'student_services', type:'act'},
+  // ── Canvas activa SS ──
+  {f:'j-canvas',   t:'student_services', type:'act'},
+  // ── Grupo activa SS + Academic Groups ──
+  {f:'j-grupo',    t:'student_services', type:'act'},
+  {f:'j-grupo',    t:'academic_groups',  type:'act'},
+  // ── Enroll activa offerings + enrollments ──
+  {f:'j-enroll',   t:'academic_offerings',    type:'act'},
+  {f:'j-enroll',   t:'student_enrollments',   type:'act'},
+  // ── SS → Enrollments (relación interna) ──
+  {f:'student_services',    t:'student_enrollments',   type:'rel'},
+  {f:'academic_offerings',  t:'student_enrollments',   type:'rel'},
+  // ── Caso especial afecta deals y SS ──
+  {f:'j-special',  t:'deals',             type:'special'},
+  {f:'j-special',  t:'student_services',  type:'special'},
+];
+
+// Swimlane bands: y ranges that match node positions
+const JLANES = [
+  {y:8,   h:140, c:'rgba(160,122,255,0.07)', bd:'rgba(160,122,255,0.18)', lbl:'ADMITIDO — SOLO COMERCIAL'},
+  {y:156, h:140, c:'rgba(108,143,255,0.07)', bd:'rgba(108,143,255,0.18)', lbl:'RESERVA — COM + SS'},
+  {y:304, h:248, c:'rgba(63,207,170,0.07)',  bd:'rgba(63,207,170,0.18)',  lbl:'MATRICULADO — SS'},
+];
+
+function ncx(n){return n.x+n.w/2;}
+function ncy(n){return n.y+n.h/2;}
+
+function buildJDiag(){
+  const cv=document.getElementById('jcv');
+  cv.style.width=JCW+'px';cv.style.height=JCH+'px';
+  const sv=document.getElementById('jsvg');
+  sv.setAttribute('width',JCW);sv.setAttribute('height',JCH);
+  sv.setAttribute('viewBox','0 0 '+JCW+' '+JCH);
+
+  // Arrowhead markers
+  const df=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  [{id:'jad',c:'rgba(255,255,255,0.35)'},{id:'jaf',c:'#6c8fff'},{id:'jaa',c:'#3fcfaa'},{id:'jas',c:'#f0a840'},{id:'jar',c:'rgba(255,255,255,0.40)'}]
+  .forEach(({id,c})=>{
+    const mk=document.createElementNS('http://www.w3.org/2000/svg','marker');
+    mk.setAttribute('id',id);mk.setAttribute('viewBox','0 0 10 10');
+    mk.setAttribute('refX','9');mk.setAttribute('refY','5');
+    mk.setAttribute('markerWidth','6');mk.setAttribute('markerHeight','6');
+    mk.setAttribute('orient','auto-start-reverse');
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d','M1,2 L8,5 L1,8');p.setAttribute('fill','none');
+    p.setAttribute('stroke',c);p.setAttribute('stroke-width','1.5');
+    p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');
+    mk.appendChild(p);df.appendChild(mk);
+  });
+  sv.appendChild(df);
+
+  // Swimlane backgrounds
+  JLANES.forEach(la=>{
+    const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+    r.setAttribute('x',8);r.setAttribute('y',la.y);
+    r.setAttribute('width',JCW-16);r.setAttribute('height',la.h);
+    r.setAttribute('rx',10);r.setAttribute('fill',la.c);
+    r.setAttribute('stroke',la.bd);r.setAttribute('stroke-width','1');
+    sv.appendChild(r);
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',JCW-18);t.setAttribute('y',la.y+la.h/2);
+    t.setAttribute('text-anchor','end');t.setAttribute('dominant-baseline','middle');
+    t.setAttribute('fill','rgba(255,255,255,0.32)');t.setAttribute('font-size','9');
+    t.setAttribute('font-family','DM Sans,sans-serif');t.setAttribute('font-weight','700');
+    t.setAttribute('letter-spacing','0.12em');t.textContent=la.lbl;
+    sv.appendChild(t);
+  });
+
+  // Edges
+  JEDGES.forEach(e=>{
+    const na=JNODES.find(n=>n.id===e.f),nb=JNODES.find(n=>n.id===e.t);
+    if(!na||!nb)return;
+    let x1,y1,x2,y2,pathD,edgeStroke,edgeSW,edgeMk,edgeDash='';
+    if(e.type==='flow'){
+      // vertical flow: exit bottom → enter top
+      x1=ncx(na);y1=na.y+na.h;x2=ncx(nb);y2=nb.y;
+      const my=(y1+y2)/2;
+      pathD='M'+x1+','+y1+' C'+x1+','+my+' '+x2+','+my+' '+x2+','+y2;
+      edgeStroke='rgba(108,143,255,0.65)';edgeSW='2';edgeMk='url(#jaf)';
+    } else if(e.type==='rel'){
+      // internal module→module: exit right → enter left
+      x1=na.x+na.w;y1=ncy(na);x2=nb.x;y2=ncy(nb);
+      const mx=(x1+x2)/2;
+      pathD='M'+x1+','+y1+' C'+mx+','+y1+' '+mx+','+y2+' '+x2+','+y2;
+      edgeStroke='rgba(255,255,255,0.2)';edgeSW='1.2';edgeMk='url(#jar)';edgeDash='3,3';
+    } else {
+      // activation: exit right of journey node → enter left of module
+      x1=na.x+na.w;y1=ncy(na);x2=nb.x;y2=ncy(nb);
+      const mx=(x1+x2)/2;
+      pathD='M'+x1+','+y1+' C'+mx+','+y1+' '+mx+','+y2+' '+x2+','+y2;
+      if(e.type==='special'){edgeStroke='rgba(240,168,64,0.5)';edgeSW='1.5';edgeMk='url(#jas)';edgeDash='4,3';}
+      else{edgeStroke='rgba(63,207,170,0.4)';edgeSW='1.5';edgeMk='url(#jaa)';edgeDash='4,3';}
+    }
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',pathD);path.setAttribute('fill','none');
+    path.setAttribute('stroke',edgeStroke);path.setAttribute('stroke-width',edgeSW);
+    path.setAttribute('marker-end',edgeMk);
+    if(edgeDash)path.setAttribute('stroke-dasharray',edgeDash);
+    sv.appendChild(path);
+  });
+
+  // Nodes as HTML divs
+  JNODES.forEach(n=>{
+    const nd=document.createElement('div');
+    nd.className='jnd jnd-'+n.type;
+    nd.id='jn-'+n.id;
+    nd.style.cssText='left:'+n.x+'px;top:'+n.y+'px;width:'+n.w+'px;min-height:'+n.h+'px';
+    nd.innerHTML='<div class="jnd-label">'+n.label+'</div><div class="jnd-sub">'+n.sub+'</div>';
+    if(n.type==='mod'){
+      nd.onclick=()=>openMod(n.id);
+      nd.title='Ver ficha de '+n.label;
+    }
+    cv.appendChild(nd);
+  });
+  jresetV();
+}
+
+function jApplyT(){document.getElementById('jcv').style.transform='translate('+jpx+'px,'+jpy+'px) scale('+jsc+')';}
+function jzoom(d){jsc=Math.min(2.5,Math.max(0.35,jsc+d));jApplyT();}
+function jresetV(){jsc=0.88;jpx=8;jpy=8;jApplyT();}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  buildSidebar();buildCards();buildDiag();buildJDiag();
+  // Firebase sidebar listener is started after Firebase loads (bottom of body)
+
+  // Diagram pan
+  const w=document.getElementById('cw');
+  w.addEventListener('mousedown',e=>{pan=true;lx2=e.clientX;ly2=e.clientY;});
+  w.addEventListener('mousemove',e=>{if(!pan)return;px+=e.clientX-lx2;py+=e.clientY-ly2;lx2=e.clientX;ly2=e.clientY;applyT();});
+  w.addEventListener('mouseup',()=>pan=false);w.addEventListener('mouseleave',()=>pan=false);
+  w.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY<0?.1:-.1);},{passive:false});
+  w.addEventListener('click',e=>{if(e.target===w||e.target.id==='cv')clrHL();});
+
+  // Journey diagram pan
+  const jw=document.getElementById('jcw');
+  jw.addEventListener('mousedown',e=>{jpan=true;jlx=e.clientX;jly=e.clientY;});
+  jw.addEventListener('mousemove',e=>{if(!jpan)return;jpx+=e.clientX-jlx;jpy+=e.clientY-jly;jlx=e.clientX;jly=e.clientY;jApplyT();});
+  jw.addEventListener('mouseup',()=>jpan=false);jw.addEventListener('mouseleave',()=>jpan=false);
+  jw.addEventListener('wheel',e=>{e.preventDefault();jzoom(e.deltaY<0?.1:-.1);},{passive:false});
+});
+</script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+(function(){
+  var firebaseConfig = {
+    apiKey: "AIzaSyC0Ak2gDAJjsPQ1mQJKm4CZzpYD8gBudFA",
+    authDomain: "westfield-ss.firebaseapp.com",
+    databaseURL: "https://westfield-ss-default-rtdb.firebaseio.com",
+    projectId: "westfield-ss",
+    storageBucket: "westfield-ss.firebasestorage.app",
+    messagingSenderId: "972280587862",
+    appId: "1:972280587862:web:97c5faaf03cf4291283df7"
+  };
+  firebase.initializeApp(firebaseConfig);
+  window.db = firebase.database();
+  // Start real-time sidebar listener now that db is ready
+  window.db.ref('comments').on('value', function(){ updateChangelogSidebar(); });
+  updateChangelogSidebar();
+})();
+</script>
+</body>
+</html>
